@@ -227,21 +227,21 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
           <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary via-primary/50 to-primary animate-pulse blur-xl" />
         )}
         <Card className={`relative overflow-hidden transition-all duration-500 ${isGenerating ? "border-primary shadow-lg shadow-primary/25" : "border-border/50"}`}>
-          <CardContent className="p-6">
-            <div className="flex flex-col sm:flex-row items-center gap-4">
-              <div className={`relative rounded-2xl p-4 ${isGenerating ? "bg-primary/20" : "bg-primary/10"}`}>
+          <CardContent className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+              <div className={`relative rounded-xl sm:rounded-2xl p-3 sm:p-4 ${isGenerating ? "bg-primary/20" : "bg-primary/10"}`}>
                 {isGenerating ? (
                   <div className="relative">
-                    <Sparkles className="h-8 w-8 text-primary animate-pulse" />
+                    <Sparkles className="h-6 sm:h-8 w-6 sm:w-8 text-primary animate-pulse" />
                     <div className="absolute inset-0 rounded-full bg-primary/30 animate-ping" />
                   </div>
                 ) : (
-                  <Zap className="h-8 w-8 text-primary" />
+                  <Zap className="h-6 sm:h-8 w-6 sm:w-8 text-primary" />
                 )}
               </div>
               <div className="flex-1 text-center sm:text-left">
-                <h3 className="text-lg font-semibold text-foreground">Decision Engine AI</h3>
-                <p className="text-sm text-muted-foreground">
+                <h3 className="text-base sm:text-lg font-semibold text-foreground">Decision Engine AI</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {isGenerating 
                     ? "Menganalisis data produk dan menghasilkan strategi..."
                     : "Generate rekomendasi platform dan strategi berdasarkan data produk Anda"
@@ -251,7 +251,7 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
               <Button
                 onClick={generateStrategy}
                 disabled={!canGenerate || isGenerating}
-                className="bg-primary hover:bg-primary/90 min-w-[160px]"
+                className="bg-primary hover:bg-primary/90 min-w-[140px] sm:min-w-[160px] text-sm sm:text-base w-full sm:w-auto"
               >
                 {isGenerating ? (
                   <span className="flex items-center gap-2">
@@ -373,9 +373,9 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-4 md:grid-cols-3">
+                <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-3">
                   {strategy.tactics.map((tactic, index) => (
-                    <div key={tactic.category} className="p-4 rounded-xl bg-secondary/30 space-y-3">
+                    <div key={tactic.category} className="p-3 sm:p-4 rounded-xl bg-secondary/30 space-y-2 sm:space-y-3">
                       <h4 className="font-semibold text-foreground flex items-center gap-2">
                         <ArrowRight className="h-4 w-4 text-primary" />
                         {tactic.category}

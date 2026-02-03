@@ -77,17 +77,17 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3 pb-4 border-b border-border/50">
-        <div className="rounded-xl bg-primary/10 p-3">
-          <Building2 className="h-6 w-6 text-primary" />
+      <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-border/50">
+        <div className="rounded-lg sm:rounded-xl bg-primary/10 p-2 sm:p-3">
+          <Building2 className="h-5 sm:h-6 w-5 sm:w-6 text-primary" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-foreground">Profil Merek</h3>
-          <p className="text-sm text-muted-foreground">Identitas bisnis dan target pasar Anda</p>
+          <h3 className="text-base sm:text-lg font-semibold text-foreground">Profil Merek</h3>
+          <p className="text-xs sm:text-sm text-muted-foreground">Identitas bisnis dan target pasar Anda</p>
         </div>
       </div>
 
-      <div className="grid gap-5">
+      <div className="grid gap-4 sm:gap-5">
         <div className="space-y-2">
           <Label htmlFor="businessName" className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-primary" />
@@ -102,7 +102,7 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
           />
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="businessType">Jenis Bisnis</Label>
             <Select 
@@ -145,7 +145,7 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
               <Badge
                 key={market}
                 variant={profile.targetMarket === market ? "default" : "outline"}
-                className={`cursor-pointer transition-all px-4 py-2 text-sm capitalize ${
+                className={`cursor-pointer transition-all px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm capitalize ${
                   profile.targetMarket === market 
                     ? "bg-primary text-primary-foreground" 
                     : "bg-transparent hover:bg-primary/10"

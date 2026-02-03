@@ -145,20 +145,20 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
         {isAuditing && (
           <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10 animate-pulse" />
         )}
-        <CardContent className="p-6 relative">
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <div className={`relative rounded-2xl p-4 ${isAuditing ? "bg-red-500/20" : "bg-red-500/10"}`}>
+        <CardContent className="p-4 sm:p-6 relative">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+            <div className={`relative rounded-xl sm:rounded-2xl p-3 sm:p-4 ${isAuditing ? "bg-red-500/20" : "bg-red-500/10"}`}>
               {isAuditing ? (
                 <div className="relative">
-                  <RefreshCcw className="h-8 w-8 text-red-400 animate-spin" />
+                  <RefreshCcw className="h-6 sm:h-8 w-6 sm:w-8 text-red-400 animate-spin" />
                 </div>
               ) : (
-                <AlertTriangle className="h-8 w-8 text-red-400" />
+                <AlertTriangle className="h-6 sm:h-8 w-6 sm:w-8 text-red-400" />
               )}
             </div>
             <div className="flex-1 text-center sm:text-left">
-              <h3 className="text-lg font-semibold text-foreground">Tombol Darurat Anti-Stagnant</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground">Tombol Darurat Anti-Stagnant</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 {isAuditing 
                   ? "Menganalisis bisnis Anda dan mencari masalah..."
                   : "Dapatkan 5 langkah audit kilat jika bisnis terasa melambat"
@@ -169,7 +169,7 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
               onClick={runAudit}
               disabled={isAuditing || products.length === 0}
               variant="destructive"
-              className="min-w-[160px]"
+              className="min-w-[140px] sm:min-w-[160px] text-sm sm:text-base w-full sm:w-auto"
             >
               {isAuditing ? (
                 <span className="flex items-center gap-2">

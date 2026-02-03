@@ -78,23 +78,23 @@ export function ProductCard({ product, onDelete, onEdit }: ProductCardProps) {
           </div>
         </div>
 
-        <div className="mt-3 flex items-center justify-between rounded-lg bg-secondary/50 px-3 py-2">
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground">Stok</p>
-            <p className="font-semibold text-foreground">{product.stock}</p>
+        <div className="mt-3 flex items-center justify-between rounded-lg bg-secondary/50 px-2 sm:px-3 py-2">
+          <div className="text-center flex-1 min-w-0">
+            <p className="text-[10px] sm:text-xs text-muted-foreground">Stok</p>
+            <p className="text-sm sm:text-base font-semibold text-foreground">{product.stock}</p>
           </div>
-          <div className="h-8 w-px bg-border" />
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground">Modal</p>
-            <p className="font-semibold text-foreground">
-              Rp {product.costPrice.toLocaleString("id-ID")}
+          <div className="h-6 sm:h-8 w-px bg-border shrink-0" />
+          <div className="text-center flex-1 min-w-0">
+            <p className="text-[10px] sm:text-xs text-muted-foreground">Modal</p>
+            <p className="text-xs sm:text-sm font-semibold text-foreground truncate">
+              {product.costPrice.toLocaleString("id-ID")}
             </p>
           </div>
-          <div className="h-8 w-px bg-border" />
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground">Profit</p>
-            <p className="font-semibold text-green-400">
-              Rp {profit.toLocaleString("id-ID")}
+          <div className="h-6 sm:h-8 w-px bg-border shrink-0" />
+          <div className="text-center flex-1 min-w-0">
+            <p className="text-[10px] sm:text-xs text-muted-foreground">Profit</p>
+            <p className="text-xs sm:text-sm font-semibold text-green-400 truncate">
+              {profit.toLocaleString("id-ID")}
             </p>
           </div>
         </div>

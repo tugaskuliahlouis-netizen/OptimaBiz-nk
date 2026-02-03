@@ -81,20 +81,23 @@ export default function LandingPage() {
                   <p className="text-xs text-muted-foreground">Enterprise Navigator</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <Button
                   variant="ghost"
+                  size="sm"
                   onClick={() => router.push("/register")}
-                  className="text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground text-sm sm:text-base"
                 >
                   Masuk
                 </Button>
                 <Button
+                  size="sm"
                   onClick={() => router.push("/register")}
-                  className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25"
+                  className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 text-sm sm:text-base"
                 >
-                  Daftar Gratis
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <span className="hidden sm:inline">Daftar Gratis</span>
+                  <span className="sm:hidden">Daftar</span>
+                  <ArrowRight className="ml-1 sm:ml-2 h-4 w-4" />
                 </Button>
               </div>
             </div>
@@ -102,7 +105,7 @@ export default function LandingPage() {
         </header>
 
         {/* Hero Section */}
-        <section className="container mx-auto px-4 py-20 lg:py-32">
+        <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-32">
           <div
             className={`max-w-4xl mx-auto text-center transition-all duration-1000 ${
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -113,26 +116,26 @@ export default function LandingPage() {
               <span className="text-sm font-medium text-primary">Real-Action Tool untuk UMKM</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
               Ubah Data Produk Menjadi{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">
                 Rencana Aksi Nyata
               </span>
             </h1>
 
-            <p className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
+            <p className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty px-2">
               OptimaBiz adalah asisten strategis yang membantu UMKM mengelola produk, menganalisis margin, dan mendapatkan
               rekomendasi bisnis berbasis data.
             </p>
 
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-4">
               <Button
                 size="lg"
                 onClick={() => router.push("/register")}
-                className="w-full sm:w-auto bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 text-lg px-8 py-6"
+                className="w-full sm:w-auto bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6"
               >
                 Mulai Sekarang - Gratis
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
               </Button>
               <Button
                 size="lg"
@@ -140,17 +143,17 @@ export default function LandingPage() {
                 onClick={() => {
                   document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })
                 }}
-                className="w-full sm:w-auto bg-transparent border-border/50 hover:bg-secondary/50 text-lg px-8 py-6"
+                className="w-full sm:w-auto bg-transparent border-border/50 hover:bg-secondary/50 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6"
               >
                 Pelajari Lebih Lanjut
               </Button>
             </div>
 
             {/* Trust badges */}
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
+            <div className="mt-8 sm:mt-12 grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-3 sm:gap-6 px-4">
               {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <CheckCircle2 className="h-4 w-4 text-green-400" />
+                <div key={index} className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                  <CheckCircle2 className="h-3 sm:h-4 w-3 sm:w-4 text-green-400 shrink-0" />
                   <span>{benefit}</span>
                 </div>
               ))}
@@ -159,17 +162,17 @@ export default function LandingPage() {
         </section>
 
         {/* Features Section */}
-        <section id="features" className="container mx-auto px-4 py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
+        <section id="features" className="container mx-auto px-4 py-12 sm:py-16 lg:py-20">
+          <div className="text-center mb-10 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
               Semua yang Anda Butuhkan
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
               Fitur lengkap untuk mengelola dan mengoptimalkan bisnis UMKM Anda
             </p>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             {features.map((feature, index) => (
               <div
                 key={index}
@@ -189,15 +192,15 @@ export default function LandingPage() {
         </section>
 
         {/* How it Works Section */}
-        <section className="container mx-auto px-4 py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground">Cara Kerja</h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+        <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20">
+          <div className="text-center mb-10 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">Cara Kerja</h2>
+            <p className="mt-3 sm:mt-4 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
               Tiga langkah mudah untuk mengoptimalkan bisnis Anda
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-3 max-w-4xl mx-auto">
+          <div className="grid gap-6 sm:gap-8 grid-cols-1 md:grid-cols-3 max-w-4xl mx-auto">
             {[
               {
                 step: "01",
@@ -215,10 +218,10 @@ export default function LandingPage() {
                 description: "Lihat analisis margin dan rekomendasi strategi bisnis otomatis.",
               },
             ].map((item, index) => (
-              <div key={index} className="relative">
-                <div className="text-6xl font-bold text-primary/10 mb-4">{item.step}</div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
+              <div key={index} className="relative text-center md:text-left">
+                <div className="text-5xl sm:text-6xl font-bold text-primary/10 mb-3 sm:mb-4">{item.step}</div>
+                <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm sm:text-base text-muted-foreground">{item.description}</p>
                 {index < 2 && (
                   <ChevronRight className="hidden md:block absolute right-0 top-8 h-8 w-8 text-primary/30" />
                 )}
@@ -228,53 +231,53 @@ export default function LandingPage() {
         </section>
 
         {/* Social Proof Section */}
-        <section className="container mx-auto px-4 py-20">
-          <div className="rounded-3xl bg-gradient-to-br from-card to-card/50 border border-border/50 p-8 sm:p-12">
-            <div className="grid gap-8 md:grid-cols-3 text-center">
+        <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20">
+          <div className="rounded-2xl sm:rounded-3xl bg-gradient-to-br from-card to-card/50 border border-border/50 p-6 sm:p-8 lg:p-12">
+            <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-3 text-center">
               <div>
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <Users className="h-6 w-6 text-primary" />
+                  <Users className="h-5 sm:h-6 w-5 sm:w-6 text-primary" />
                 </div>
-                <div className="text-4xl font-bold text-foreground">1,000+</div>
-                <div className="text-muted-foreground mt-1">UMKM Terdaftar</div>
+                <div className="text-3xl sm:text-4xl font-bold text-foreground">1,000+</div>
+                <div className="text-sm sm:text-base text-muted-foreground mt-1">UMKM Terdaftar</div>
               </div>
               <div>
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <Package className="h-6 w-6 text-primary" />
+                  <Package className="h-5 sm:h-6 w-5 sm:w-6 text-primary" />
                 </div>
-                <div className="text-4xl font-bold text-foreground">50,000+</div>
-                <div className="text-muted-foreground mt-1">Produk Dikelola</div>
+                <div className="text-3xl sm:text-4xl font-bold text-foreground">50,000+</div>
+                <div className="text-sm sm:text-base text-muted-foreground mt-1">Produk Dikelola</div>
               </div>
               <div>
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <ShieldCheck className="h-6 w-6 text-primary" />
+                  <ShieldCheck className="h-5 sm:h-6 w-5 sm:w-6 text-primary" />
                 </div>
-                <div className="text-4xl font-bold text-foreground">99.9%</div>
-                <div className="text-muted-foreground mt-1">Uptime Terjamin</div>
+                <div className="text-3xl sm:text-4xl font-bold text-foreground">99.9%</div>
+                <div className="text-sm sm:text-base text-muted-foreground mt-1">Uptime Terjamin</div>
               </div>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="container mx-auto px-4 py-20">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 p-8 sm:p-12 text-center">
+        <section className="container mx-auto px-4 py-12 sm:py-16 lg:py-20">
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 p-6 sm:p-8 lg:p-12 text-center">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/10 to-transparent" />
             <div className="relative">
-              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-3 sm:mb-4">
                 Siap Mengoptimalkan Bisnis Anda?
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+              <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 px-4">
                 Bergabung dengan ribuan UMKM yang sudah menggunakan OptimaBiz untuk mengelola dan mengembangkan bisnis
                 mereka.
               </p>
               <Button
                 size="lg"
                 onClick={() => router.push("/register")}
-                className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 text-lg px-8 py-6"
+                className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 w-full sm:w-auto"
               >
                 Daftar Sekarang - Gratis
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-4 sm:h-5 w-4 sm:w-5" />
               </Button>
             </div>
           </div>

@@ -59,7 +59,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex flex-col lg:flex-row">
       {/* Ambient background effects */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/20 rounded-full blur-[120px]" />
@@ -119,8 +119,8 @@ export default function RegisterPage() {
       </div>
 
       {/* Right Side - Form */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-12 relative">
-        <div className="w-full max-w-md">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-12 relative min-h-screen lg:min-h-0">
+        <div className="w-full max-w-md mx-auto">
           {/* Mobile Logo */}
           <Link href="/" className="lg:hidden flex items-center gap-3 mb-8">
             <div className="relative">
@@ -136,11 +136,11 @@ export default function RegisterPage() {
           </Link>
 
           {/* Form Header */}
-          <div className="mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
+          <div className="mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground">
               {isLogin ? "Selamat Datang Kembali" : "Buat Akun Baru"}
             </h2>
-            <p className="mt-2 text-muted-foreground">
+            <p className="mt-2 text-sm sm:text-base text-muted-foreground">
               {isLogin
                 ? "Masuk ke akun Anda untuk melanjutkan"
                 : "Daftar gratis dan mulai kelola bisnis Anda"}
@@ -148,7 +148,7 @@ export default function RegisterPage() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
             {!isLogin && (
               <>
                 <div className="space-y-2">
@@ -274,7 +274,7 @@ export default function RegisterPage() {
             <Button
               type="submit"
               disabled={isLoading || (!isLogin && !agreeTerms)}
-              className="w-full bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 py-6 text-base"
+              className="w-full bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 py-5 sm:py-6 text-sm sm:text-base"
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
@@ -305,7 +305,7 @@ export default function RegisterPage() {
           </div>
 
           {/* Divider */}
-          <div className="relative my-8">
+          <div className="relative my-6 sm:my-8">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-border/50" />
             </div>
@@ -319,7 +319,7 @@ export default function RegisterPage() {
             <Button
               type="button"
               variant="outline"
-              className="w-full bg-transparent border-border/50 hover:bg-secondary/50 py-5"
+              className="w-full bg-transparent border-border/50 hover:bg-secondary/50 py-4 sm:py-5 text-sm sm:text-base"
               onClick={() => {
                 setIsLoading(true)
                 setTimeout(() => {
@@ -328,7 +328,7 @@ export default function RegisterPage() {
                 }, 1500)
               }}
             >
-              <svg className="h-5 w-5 mr-3" viewBox="0 0 24 24">
+              <svg className="h-4 sm:h-5 w-4 sm:w-5 mr-2 sm:mr-3" viewBox="0 0 24 24">
                 <path
                   fill="currentColor"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

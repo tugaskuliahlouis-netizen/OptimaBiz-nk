@@ -84,8 +84,8 @@ export function GrowthChart({ totalProducts, avgMargin, totalValue }: GrowthChar
             Simulasi Anggaran Marketing
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
+        <CardContent className="space-y-4 sm:space-y-6">
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <Label>Budget Bulanan</Label>
@@ -130,16 +130,16 @@ export function GrowthChart({ totalProducts, avgMargin, totalValue }: GrowthChar
       </Card>
 
       {/* Projection Stats */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3">
         <Card className="border-border/50 bg-gradient-to-br from-primary/10 to-transparent">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-primary/20 p-2.5">
-                <TrendingUp className="h-5 w-5 text-primary" />
+          <CardContent className="p-3 sm:p-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="rounded-lg sm:rounded-xl bg-primary/20 p-2 sm:p-2.5">
+                <TrendingUp className="h-4 sm:h-5 w-4 sm:w-5 text-primary" />
               </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Proyeksi Revenue (12 bln)</p>
-                <p className="text-xl font-bold text-foreground">
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-xs text-muted-foreground">Proyeksi Revenue (12 bln)</p>
+                <p className="text-base sm:text-xl font-bold text-foreground truncate">
                   Rp {totalProjectedRevenue.toLocaleString("id-ID")}
                 </p>
               </div>
@@ -148,14 +148,14 @@ export function GrowthChart({ totalProducts, avgMargin, totalValue }: GrowthChar
         </Card>
 
         <Card className="border-border/50 bg-gradient-to-br from-green-500/10 to-transparent">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-green-500/20 p-2.5">
-                <DollarSign className="h-5 w-5 text-green-400" />
+          <CardContent className="p-3 sm:p-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="rounded-lg sm:rounded-xl bg-green-500/20 p-2 sm:p-2.5">
+                <DollarSign className="h-4 sm:h-5 w-4 sm:w-5 text-green-400" />
               </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Proyeksi Profit (12 bln)</p>
-                <p className="text-xl font-bold text-green-400">
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-xs text-muted-foreground">Proyeksi Profit (12 bln)</p>
+                <p className="text-base sm:text-xl font-bold text-green-400 truncate">
                   Rp {totalProjectedProfit.toLocaleString("id-ID")}
                 </p>
               </div>
@@ -164,14 +164,14 @@ export function GrowthChart({ totalProducts, avgMargin, totalValue }: GrowthChar
         </Card>
 
         <Card className="border-border/50 bg-gradient-to-br from-blue-500/10 to-transparent">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-blue-500/20 p-2.5">
-                <Target className="h-5 w-5 text-blue-400" />
+          <CardContent className="p-3 sm:p-4">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="rounded-lg sm:rounded-xl bg-blue-500/20 p-2 sm:p-2.5">
+                <Target className="h-4 sm:h-5 w-4 sm:w-5 text-blue-400" />
               </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Rata-rata ROAS</p>
-                <p className="text-xl font-bold text-blue-400">{avgROAS}x</p>
+              <div className="min-w-0">
+                <p className="text-[10px] sm:text-xs text-muted-foreground">Rata-rata ROAS</p>
+                <p className="text-base sm:text-xl font-bold text-blue-400">{avgROAS}x</p>
               </div>
             </div>
           </CardContent>
@@ -186,8 +186,8 @@ export function GrowthChart({ totalProducts, avgMargin, totalValue }: GrowthChar
             Proyeksi Pertumbuhan 12 Bulan
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="h-[350px] w-full">
+        <CardContent className="p-3 sm:p-6">
+          <div className="h-[280px] sm:h-[350px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={projectedData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
