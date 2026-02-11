@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -27,7 +26,6 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  // Form states
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
@@ -38,11 +36,7 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-
-    // Simulate registration/login process
     await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    // Store user data in localStorage for demo
     if (!isLogin) {
       const userData = {
         name,
@@ -53,46 +47,41 @@ export default function RegisterPage() {
       }
       localStorage.setItem("optimabiz_user", JSON.stringify(userData))
     }
-
     setIsLoading(false)
     router.push("/dashboard")
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col lg:flex-row">
-      {/* Ambient background effects */}
+    <div className="min-h-screen bg-background flex flex-col lg:flex-row overflow-x-hidden">
+      {/* Ambient background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 -left-40 w-80 h-80 bg-primary/15 rounded-full blur-[100px]" />
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/15 rounded-full blur-[150px]" />
+        <div className="absolute bottom-0 -left-40 w-80 h-80 bg-primary/10 rounded-full blur-[120px]" />
       </div>
 
       {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-primary/10 to-background border-r border-border/50">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary/20 to-transparent" />
+      <div className="hidden lg:flex lg:w-1/2 relative bg-primary">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary-foreground/5 to-transparent" />
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           <Link href="/" className="flex items-center gap-3">
-            <div className="relative">
-              <div className="absolute inset-0 bg-primary/50 blur-xl rounded-full" />
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/50">
-                <Sparkles className="h-6 w-6 text-primary-foreground" />
-              </div>
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-foreground">
+              <Sparkles className="h-6 w-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-foreground">OptimaBiz</h1>
-              <p className="text-sm text-muted-foreground">Enterprise Navigator</p>
+              <h1 className="text-2xl font-extrabold text-primary-foreground tracking-tight">OptimaBiz</h1>
+              <p className="text-xs uppercase tracking-widest text-primary-foreground/60">Enterprise Navigator</p>
             </div>
           </Link>
 
           <div className="space-y-6">
-            <h2 className="text-4xl font-bold text-foreground leading-tight">
-              Kelola Bisnis Anda dengan{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">
+            <h2 className="text-4xl font-extrabold text-primary-foreground leading-tight tracking-tight">
+              Kelola Bisnis{" "}
+              <span className="text-primary-foreground/80">
                 Lebih Cerdas
               </span>
             </h2>
-            <p className="text-lg text-muted-foreground max-w-md">
-              Bergabung dengan ribuan UMKM yang sudah menggunakan OptimaBiz untuk mengoptimalkan profit dan
-              mengembangkan bisnis mereka.
+            <p className="text-lg text-primary-foreground/70 max-w-md leading-relaxed">
+              Bergabung dengan ribuan UMKM yang sudah pakai OptimaBiz buat optimize profit dan grow bisnis mereka.
             </p>
 
             <div className="space-y-4">
@@ -103,16 +92,16 @@ export default function RegisterPage() {
                 "Upload foto produk dengan drag & drop",
               ].map((feature, index) => (
                 <div key={index} className="flex items-center gap-3">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/20">
-                    <div className="h-2 w-2 rounded-full bg-primary" />
+                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-foreground/20">
+                    <div className="h-2 w-2 rounded-full bg-primary-foreground" />
                   </div>
-                  <span className="text-muted-foreground">{feature}</span>
+                  <span className="text-primary-foreground/80">{feature}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-primary-foreground/50">
             2024 OptimaBiz. Dibuat untuk UMKM Indonesia.
           </p>
         </div>
@@ -124,26 +113,26 @@ export default function RegisterPage() {
           {/* Mobile Logo */}
           <Link href="/" className="lg:hidden flex items-center gap-3 mb-8">
             <div className="relative">
-              <div className="absolute inset-0 bg-primary/50 blur-xl rounded-full" />
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/50">
+              <div className="absolute inset-0 bg-primary/40 blur-xl rounded-full" />
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-primary">
                 <Sparkles className="h-5 w-5 text-primary-foreground" />
               </div>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">OptimaBiz</h1>
-              <p className="text-xs text-muted-foreground">Enterprise Navigator</p>
+              <h1 className="text-xl font-extrabold text-foreground tracking-tight">OptimaBiz</h1>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Enterprise Navigator</p>
             </div>
           </Link>
 
           {/* Form Header */}
           <div className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground">
-              {isLogin ? "Selamat Datang Kembali" : "Buat Akun Baru"}
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-foreground tracking-tight">
+              {isLogin ? "Welcome Back" : "Buat Akun Baru"}
             </h2>
             <p className="mt-2 text-sm sm:text-base text-muted-foreground">
               {isLogin
-                ? "Masuk ke akun Anda untuk melanjutkan"
-                : "Daftar gratis dan mulai kelola bisnis Anda"}
+                ? "Masuk ke akun kamu untuk lanjutkan perjalanan"
+                : "Daftar gratis dan mulai kelola bisnismu sekarang"}
             </p>
           </div>
 
@@ -162,7 +151,7 @@ export default function RegisterPage() {
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Masukkan nama lengkap"
                       required
-                      className="pl-11 bg-secondary/50 border-border/50 focus:border-primary"
+                      className="pl-11 bg-secondary/50 border-border/50 focus:border-primary rounded-2xl"
                     />
                   </div>
                 </div>
@@ -176,9 +165,9 @@ export default function RegisterPage() {
                       type="text"
                       value={businessName}
                       onChange={(e) => setBusinessName(e.target.value)}
-                      placeholder="Nama toko atau usaha Anda"
+                      placeholder="Nama toko atau usaha kamu"
                       required
-                      className="pl-11 bg-secondary/50 border-border/50 focus:border-primary"
+                      className="pl-11 bg-secondary/50 border-border/50 focus:border-primary rounded-2xl"
                     />
                   </div>
                 </div>
@@ -194,7 +183,7 @@ export default function RegisterPage() {
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="08xxxxxxxxxx"
                       required
-                      className="pl-11 bg-secondary/50 border-border/50 focus:border-primary"
+                      className="pl-11 bg-secondary/50 border-border/50 focus:border-primary rounded-2xl"
                     />
                   </div>
                 </div>
@@ -212,7 +201,7 @@ export default function RegisterPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="nama@email.com"
                   required
-                  className="pl-11 bg-secondary/50 border-border/50 focus:border-primary"
+                  className="pl-11 bg-secondary/50 border-border/50 focus:border-primary rounded-2xl"
                 />
               </div>
             </div>
@@ -229,7 +218,7 @@ export default function RegisterPage() {
                   placeholder="Minimal 8 karakter"
                   required
                   minLength={8}
-                  className="pl-11 pr-11 bg-secondary/50 border-border/50 focus:border-primary"
+                  className="pl-11 pr-11 bg-secondary/50 border-border/50 focus:border-primary rounded-2xl"
                 />
                 <button
                   type="button"
@@ -271,10 +260,10 @@ export default function RegisterPage() {
               </div>
             )}
 
-            <Button
+            <button
               type="submit"
               disabled={isLoading || (!isLogin && !agreeTerms)}
-              className="w-full bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 py-5 sm:py-6 text-sm sm:text-base"
+              className="btn-pill w-full bg-primary text-primary-foreground font-bold py-4 sm:py-5 text-sm sm:text-base inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
@@ -283,11 +272,11 @@ export default function RegisterPage() {
                 </div>
               ) : (
                 <>
-                  {isLogin ? "Masuk" : "Daftar Sekarang"}
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  {isLogin ? "Masuk" : "Gaspol!"}
+                  <ArrowRight className="h-5 w-5" />
                 </>
               )}
-            </Button>
+            </button>
           </form>
 
           {/* Toggle Login/Register */}
@@ -297,7 +286,7 @@ export default function RegisterPage() {
               <button
                 type="button"
                 onClick={() => setIsLogin(!isLogin)}
-                className="text-primary hover:underline font-medium"
+                className="text-primary hover:underline font-semibold"
               >
                 {isLogin ? "Daftar sekarang" : "Masuk di sini"}
               </button>
@@ -314,12 +303,11 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* Social Login Buttons */}
+          {/* Social Login */}
           <div className="space-y-3">
-            <Button
+            <button
               type="button"
-              variant="outline"
-              className="w-full bg-transparent border-border/50 hover:bg-secondary/50 py-4 sm:py-5 text-sm sm:text-base"
+              className="btn-pill w-full border border-border/50 text-foreground font-semibold py-4 sm:py-5 text-sm sm:text-base inline-flex items-center justify-center gap-3 bg-transparent hover:bg-secondary/50"
               onClick={() => {
                 setIsLoading(true)
                 setTimeout(() => {
@@ -328,7 +316,7 @@ export default function RegisterPage() {
                 }, 1500)
               }}
             >
-              <svg className="h-4 sm:h-5 w-4 sm:w-5 mr-2 sm:mr-3" viewBox="0 0 24 24">
+              <svg className="h-5 w-5" viewBox="0 0 24 24">
                 <path
                   fill="currentColor"
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -347,7 +335,7 @@ export default function RegisterPage() {
                 />
               </svg>
               Lanjutkan dengan Google
-            </Button>
+            </button>
           </div>
         </div>
       </div>

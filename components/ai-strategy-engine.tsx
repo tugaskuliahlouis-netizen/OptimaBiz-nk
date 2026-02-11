@@ -1,9 +1,7 @@
 "use client"
 
 import React from "react"
-
 import { useState, useEffect, useRef } from "react"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import type { Product } from "./product-form"
@@ -89,74 +87,68 @@ const platformDatabase: Record<string, { name: string; icon: React.ReactNode; re
   ]
 }
 
-const generateTimeline = (category: string): { week: string; phase: string; tasks: string[] }[] => {
-  return [
-    {
-      week: "Minggu 1-2",
-      phase: "Setup",
-      tasks: [
-        "Buat akun di platform yang direkomendasikan",
-        "Siapkan foto produk profesional",
-        "Tulis deskripsi produk yang menarik dengan SEO",
-        "Setup katalog dan pricing strategy"
-      ]
-    },
-    {
-      week: "Minggu 3-4",
-      phase: "Growth",
-      tasks: [
-        "Mulai posting konten secara konsisten (3-5x/minggu)",
-        "Jalankan promo launching (diskon 10-15%)",
-        "Engage dengan komunitas dan calon pelanggan",
-        "Kumpulkan review dari early adopters"
-      ]
-    },
-    {
-      week: "Minggu 5-8",
-      phase: "Scaling",
-      tasks: [
-        "Analisis performa dan optimasi strategi",
-        "Tingkatkan budget iklan pada platform terbaik",
-        "Kolaborasi dengan micro-influencer",
-        "Expand ke platform sekunder"
-      ]
-    }
-  ]
-}
+const generateTimeline = (category: string) => [
+  {
+    week: "Minggu 1-2",
+    phase: "Setup",
+    tasks: [
+      "Buat akun di platform yang direkomendasikan",
+      "Siapkan foto produk profesional",
+      "Tulis deskripsi produk yang menarik dengan SEO",
+      "Setup katalog dan pricing strategy"
+    ]
+  },
+  {
+    week: "Minggu 3-4",
+    phase: "Growth",
+    tasks: [
+      "Mulai posting konten secara konsisten (3-5x/minggu)",
+      "Jalankan promo launching (diskon 10-15%)",
+      "Engage dengan komunitas dan calon pelanggan",
+      "Kumpulkan review dari early adopters"
+    ]
+  },
+  {
+    week: "Minggu 5-8",
+    phase: "Scaling",
+    tasks: [
+      "Analisis performa dan optimasi strategi",
+      "Tingkatkan budget iklan pada platform terbaik",
+      "Kolaborasi dengan micro-influencer",
+      "Expand ke platform sekunder"
+    ]
+  }
+]
 
-const generateTactics = (category: string, targetMarket: string): { category: string; actions: string[] }[] => {
-  const baseTactics = [
-    {
-      category: "Content Strategy",
-      actions: [
-        "Buat content calendar mingguan",
-        "Mix konten: 40% edukatif, 30% promosi, 30% entertainment",
-        "Gunakan trending audio dan hashtag",
-        "Post di prime time: 11-13 & 19-21"
-      ]
-    },
-    {
-      category: "Pricing Strategy",
-      actions: [
-        "Terapkan psychological pricing (Rp99.000 vs Rp100.000)",
-        "Bundle products untuk increase AOV",
-        "Flash sale mingguan untuk urgency",
-        "Loyalty program untuk repeat customers"
-      ]
-    },
-    {
-      category: "Customer Acquisition",
-      actions: [
-        targetMarket === "lokal" ? "Fokus pada geo-targeting area sekitar" : "Expand jangkauan dengan ads nasional",
-        "Referral program: diskon untuk yang invite teman",
-        "Kolaborasi dengan bisnis komplementer",
-        "Testimoni dan UGC sebagai social proof"
-      ]
-    }
-  ]
-
-  return baseTactics
-}
+const generateTactics = (category: string, targetMarket: string) => [
+  {
+    category: "Content Strategy",
+    actions: [
+      "Buat content calendar mingguan",
+      "Mix konten: 40% edukatif, 30% promosi, 30% entertainment",
+      "Gunakan trending audio dan hashtag",
+      "Post di prime time: 11-13 & 19-21"
+    ]
+  },
+  {
+    category: "Pricing Strategy",
+    actions: [
+      "Terapkan psychological pricing (Rp99.000 vs Rp100.000)",
+      "Bundle products untuk increase AOV",
+      "Flash sale mingguan untuk urgency",
+      "Loyalty program untuk repeat customers"
+    ]
+  },
+  {
+    category: "Customer Acquisition",
+    actions: [
+      targetMarket === "lokal" ? "Fokus pada geo-targeting area sekitar" : "Expand jangkauan dengan ads nasional",
+      "Referral program: diskon untuk yang invite teman",
+      "Kolaborasi dengan bisnis komplementer",
+      "Testimoni dan UGC sebagai social proof"
+    ]
+  }
+]
 
 export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }: AIStrategyEngineProps) {
   const [isGenerating, setIsGenerating] = useState(false)
@@ -180,22 +172,19 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
     setDisplayedText("")
     setCurrentSection(0)
 
-    // Simulate AI thinking
     setTimeout(() => {
       const platforms = platformDatabase[topCategory] || platformDatabase["Lainnya"]
       const timeline = generateTimeline(topCategory)
       const tactics = generateTactics(topCategory, brandProfile?.targetMarket || "lokal")
-
       setStrategy({ platforms, timeline, tactics })
       setIsGenerating(false)
       onGenerateStrategy()
     }, 3000)
   }
 
-  // Typewriter effect for intro text
   useEffect(() => {
     if (strategy && currentSection === 0) {
-      const introText = `Berdasarkan analisis ${products.length} produk dalam kategori ${topCategory} dan target pasar ${brandProfile?.targetMarket || "lokal"}, berikut strategi yang direkomendasikan untuk ${brandProfile?.businessName || "bisnis Anda"}:`
+      const introText = `Berdasarkan analisis ${products.length} produk dalam kategori ${topCategory} dan target pasar ${brandProfile?.targetMarket || "lokal"}, berikut strategi yang direkomendasikan untuk ${brandProfile?.businessName || "bisnis kamu"}:`
       let index = 0
       const interval = setInterval(() => {
         if (index < introText.length) {
@@ -224,127 +213,123 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
       {/* Generate Button with Glowing Effect */}
       <div className="relative">
         {isGenerating && (
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary via-primary/50 to-primary animate-pulse blur-xl" />
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary via-primary/50 to-primary animate-pulse blur-xl" />
         )}
-        <Card className={`relative overflow-hidden transition-all duration-500 ${isGenerating ? "border-primary shadow-lg shadow-primary/25" : "border-border/50"}`}>
-          <CardContent className="p-4 sm:p-6">
-            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-              <div className={`relative rounded-xl sm:rounded-2xl p-3 sm:p-4 ${isGenerating ? "bg-primary/20" : "bg-primary/10"}`}>
-                {isGenerating ? (
-                  <div className="relative">
-                    <Sparkles className="h-6 sm:h-8 w-6 sm:w-8 text-primary animate-pulse" />
-                    <div className="absolute inset-0 rounded-full bg-primary/30 animate-ping" />
-                  </div>
-                ) : (
-                  <Zap className="h-6 sm:h-8 w-6 sm:w-8 text-primary" />
-                )}
-              </div>
-              <div className="flex-1 text-center sm:text-left">
-                <h3 className="text-base sm:text-lg font-semibold text-foreground">Decision Engine AI</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground">
-                  {isGenerating 
-                    ? "Menganalisis data produk dan menghasilkan strategi..."
-                    : "Generate rekomendasi platform dan strategi berdasarkan data produk Anda"
-                  }
-                </p>
-              </div>
-              <Button
-                onClick={generateStrategy}
-                disabled={!canGenerate || isGenerating}
-                className="bg-primary hover:bg-primary/90 min-w-[140px] sm:min-w-[160px] text-sm sm:text-base w-full sm:w-auto"
-              >
-                {isGenerating ? (
-                  <span className="flex items-center gap-2">
-                    <span className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                    Processing...
-                  </span>
-                ) : (
-                  <>
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Generate Strategi
-                  </>
-                )}
-              </Button>
+        <div className={`relative overflow-hidden rounded-3xl glass-card p-5 sm:p-6 transition-all duration-500 ${isGenerating ? "shadow-lg shadow-primary/25 border-primary/50" : ""}`}>
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className={`relative rounded-2xl p-3 sm:p-4 ${isGenerating ? "bg-primary/20" : "bg-primary/10"}`}>
+              {isGenerating ? (
+                <div className="relative">
+                  <Sparkles className="h-6 sm:h-8 w-6 sm:w-8 text-primary animate-pulse" />
+                  <div className="absolute inset-0 rounded-full bg-primary/30 animate-ping" />
+                </div>
+              ) : (
+                <Zap className="h-6 sm:h-8 w-6 sm:w-8 text-primary" />
+              )}
             </div>
-
-            {!canGenerate && (
-              <p className="mt-4 text-sm text-yellow-500 text-center">
-                Tambahkan minimal 1 produk untuk generate strategi
+            <div className="flex-1 text-center sm:text-left">
+              <h3 className="text-base sm:text-lg font-bold text-foreground">Decision Engine AI</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground">
+                {isGenerating 
+                  ? "Lagi mikir strategi terbaik buat bisnis kamu..."
+                  : "Generate rekomendasi platform dan strategi berdasarkan data produk kamu"
+                }
               </p>
-            )}
-          </CardContent>
-        </Card>
+            </div>
+            <button
+              onClick={generateStrategy}
+              disabled={!canGenerate || isGenerating}
+              className="btn-pill bg-primary text-primary-foreground font-bold text-sm px-6 py-3 w-full sm:w-auto inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
+            >
+              {isGenerating ? (
+                <span className="flex items-center gap-2">
+                  <span className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                  Processing...
+                </span>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4" />
+                  Generate Strategi
+                </>
+              )}
+            </button>
+          </div>
+
+          {!canGenerate && (
+            <p className="mt-4 text-sm text-amber-400 text-center">
+              Tambahkan minimal 1 produk untuk generate strategi
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Strategy Output with Typewriter Effect */}
       {strategy && (
         <div ref={containerRef} className="space-y-6">
           {/* Intro Text */}
-          <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-            <CardContent className="p-6">
-              <p className="text-foreground leading-relaxed">
-                {displayedText}
-                {currentSection === 0 && <span className="animate-pulse">|</span>}
-              </p>
-            </CardContent>
-          </Card>
+          <div className="rounded-3xl glass-card p-5 sm:p-6">
+            <p className="text-foreground leading-relaxed">
+              {displayedText}
+              {currentSection === 0 && <span className="animate-pulse text-primary">|</span>}
+            </p>
+          </div>
 
           {/* Platform Recommendations */}
           {currentSection >= 1 && (
-            <Card className="border-border/50 bg-card/50 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
+            <div className="rounded-3xl glass-card overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="p-5 sm:p-6 pb-3">
+                <h3 className="flex items-center gap-2 text-lg font-bold text-foreground">
                   <Target className="h-5 w-5 text-primary" />
                   Platform yang Direkomendasikan
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
+                </h3>
+              </div>
+              <div className="px-5 sm:px-6 pb-5 sm:pb-6 space-y-3">
                 {strategy.platforms.map((platform, index) => (
                   <div 
                     key={platform.name}
-                    className="flex items-start gap-3 p-3 rounded-xl bg-secondary/30 hover:bg-secondary/50 transition-colors"
+                    className="flex items-start gap-3 p-3 rounded-2xl bg-secondary/50 hover:bg-secondary/80 transition-colors"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    <div className="rounded-lg bg-primary/10 p-2 text-primary">
+                    <div className="rounded-xl bg-primary/10 p-2 text-primary">
                       {platform.icon}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-foreground">{platform.name}</span>
-                        <Badge variant="outline" className="text-xs">Recommended</Badge>
+                        <span className="font-bold text-foreground">{platform.name}</span>
+                        <Badge variant="outline" className="text-xs rounded-full border-primary/30 text-primary">Recommended</Badge>
                       </div>
                       <p className="text-sm text-muted-foreground mt-1">{platform.reason}</p>
                     </div>
                   </div>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
 
           {/* Timeline */}
           {currentSection >= 2 && (
-            <Card className="border-border/50 bg-card/50 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
+            <div className="rounded-3xl glass-card overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="p-5 sm:p-6 pb-3">
+                <h3 className="flex items-center gap-2 text-lg font-bold text-foreground">
                   <Calendar className="h-5 w-5 text-primary" />
                   Timeline Rencana Aksi
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+                </h3>
+              </div>
+              <div className="px-5 sm:px-6 pb-5 sm:pb-6">
                 <div className="relative">
                   <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent" />
                   <div className="space-y-6">
                     {strategy.timeline.map((item, index) => (
                       <div key={item.week} className="relative pl-10">
                         <div className={`absolute left-2 w-5 h-5 rounded-full border-2 ${
-                          index === 0 ? "bg-primary border-primary" : "bg-card border-primary/50"
+                          index === 0 ? "bg-primary border-primary" : "bg-popover border-primary/50"
                         }`}>
                           {index === 0 && <div className="absolute inset-1 rounded-full bg-primary-foreground" />}
                         </div>
-                        <div className="p-4 rounded-xl bg-secondary/30">
+                        <div className="p-4 rounded-2xl bg-secondary/50">
                           <div className="flex items-center gap-3 mb-3">
-                            <Badge className="bg-primary/20 text-primary hover:bg-primary/30">{item.week}</Badge>
-                            <span className="font-semibold text-foreground">{item.phase}</span>
+                            <Badge className="bg-primary/20 text-primary hover:bg-primary/30 rounded-full">{item.week}</Badge>
+                            <span className="font-bold text-foreground">{item.phase}</span>
                           </div>
                           <ul className="space-y-2">
                             {item.tasks.map((task, taskIndex) => (
@@ -359,31 +344,31 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
                     ))}
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
 
           {/* Tactical Matrix */}
           {currentSection >= 3 && (
-            <Card className="border-border/50 bg-card/50 backdrop-blur-sm animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-lg">
+            <div className="rounded-3xl glass-card overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="p-5 sm:p-6 pb-3">
+                <h3 className="flex items-center gap-2 text-lg font-bold text-foreground">
                   <Hammer className="h-5 w-5 text-primary" />
                   Matriks Taktis
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-3">
+                </h3>
+              </div>
+              <div className="px-5 sm:px-6 pb-5 sm:pb-6">
+                <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
                   {strategy.tactics.map((tactic, index) => (
-                    <div key={tactic.category} className="p-3 sm:p-4 rounded-xl bg-secondary/30 space-y-2 sm:space-y-3">
-                      <h4 className="font-semibold text-foreground flex items-center gap-2">
+                    <div key={tactic.category} className="p-4 rounded-2xl bg-secondary/50 space-y-3">
+                      <h4 className="font-bold text-foreground flex items-center gap-2">
                         <ArrowRight className="h-4 w-4 text-primary" />
                         {tactic.category}
                       </h4>
                       <ul className="space-y-2">
                         {tactic.actions.map((action, actionIndex) => (
                           <li key={actionIndex} className="text-sm text-muted-foreground flex items-start gap-2">
-                            <span className="text-primary mt-1">•</span>
+                            <span className="text-primary mt-1 shrink-0">&#8226;</span>
                             {action}
                           </li>
                         ))}
@@ -391,8 +376,8 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           )}
         </div>
       )}

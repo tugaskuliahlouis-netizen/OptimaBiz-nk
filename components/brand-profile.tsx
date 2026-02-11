@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -62,9 +61,7 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
   const [isSaved, setIsSaved] = useState(false)
 
   useEffect(() => {
-    if (initialProfile) {
-      setProfile(initialProfile)
-    }
+    if (initialProfile) setProfile(initialProfile)
   }, [initialProfile])
 
   const handleSave = () => {
@@ -77,13 +74,13 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2 sm:gap-3 pb-3 sm:pb-4 border-b border-border/50">
-        <div className="rounded-lg sm:rounded-xl bg-primary/10 p-2 sm:p-3">
-          <Building2 className="h-5 sm:h-6 w-5 sm:w-6 text-primary" />
+      <div className="flex items-center gap-3 pb-4 border-b border-border/50">
+        <div className="rounded-2xl bg-primary/10 p-3">
+          <Building2 className="h-5 w-5 text-primary" />
         </div>
         <div>
-          <h3 className="text-base sm:text-lg font-semibold text-foreground">Profil Merek</h3>
-          <p className="text-xs sm:text-sm text-muted-foreground">Identitas bisnis dan target pasar Anda</p>
+          <h3 className="text-base sm:text-lg font-bold text-popover-foreground">Profil Merek</h3>
+          <p className="text-xs sm:text-sm text-muted-foreground">Identitas bisnis dan target pasar kamu</p>
         </div>
       </div>
 
@@ -98,7 +95,7 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
             value={profile.businessName}
             onChange={(e) => setProfile({ ...profile, businessName: e.target.value })}
             placeholder="Contoh: Warung Makan Bu Rani"
-            className="bg-secondary/50"
+            className="bg-secondary/50 rounded-2xl"
           />
         </div>
 
@@ -109,7 +106,7 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
               value={profile.businessType} 
               onValueChange={(value) => setProfile({ ...profile, businessType: value })}
             >
-              <SelectTrigger className="bg-secondary/50">
+              <SelectTrigger className="bg-secondary/50 rounded-2xl">
                 <SelectValue placeholder="Pilih jenis bisnis" />
               </SelectTrigger>
               <SelectContent>
@@ -130,7 +127,7 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
               value={profile.location}
               onChange={(e) => setProfile({ ...profile, location: e.target.value })}
               placeholder="Contoh: Jakarta Selatan"
-              className="bg-secondary/50"
+              className="bg-secondary/50 rounded-2xl"
             />
           </div>
         </div>
@@ -142,18 +139,18 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
           </Label>
           <div className="flex flex-wrap gap-2">
             {(["lokal", "nasional", "internasional"] as const).map((market) => (
-              <Badge
+              <button
                 key={market}
-                variant={profile.targetMarket === market ? "default" : "outline"}
-                className={`cursor-pointer transition-all px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm capitalize ${
+                type="button"
+                className={`btn-pill px-4 py-2 text-xs sm:text-sm font-semibold capitalize ${
                   profile.targetMarket === market 
                     ? "bg-primary text-primary-foreground" 
-                    : "bg-transparent hover:bg-primary/10"
+                    : "bg-transparent border border-border/50 text-popover-foreground hover:bg-secondary/50"
                 }`}
                 onClick={() => setProfile({ ...profile, targetMarket: market })}
               >
                 {market}
-              </Badge>
+              </button>
             ))}
           </div>
         </div>
@@ -168,7 +165,7 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
             value={profile.targetAudience}
             onChange={(e) => setProfile({ ...profile, targetAudience: e.target.value })}
             placeholder="Contoh: Ibu rumah tangga usia 25-45 tahun"
-            className="bg-secondary/50"
+            className="bg-secondary/50 rounded-2xl"
           />
         </div>
 
@@ -178,9 +175,9 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
             id="description"
             value={profile.description}
             onChange={(e) => setProfile({ ...profile, description: e.target.value })}
-            placeholder="Ceritakan tentang bisnis Anda, produk unggulan, dan keunikannya..."
+            placeholder="Ceritakan tentang bisnis kamu, produk unggulan, dan keunikannya..."
             rows={3}
-            className="bg-secondary/50 resize-none"
+            className="bg-secondary/50 resize-none rounded-2xl"
           />
         </div>
 
@@ -190,26 +187,26 @@ export function BrandProfileForm({ onSave, initialProfile }: BrandProfileFormPro
             id="uniqueValue"
             value={profile.uniqueValue}
             onChange={(e) => setProfile({ ...profile, uniqueValue: e.target.value })}
-            placeholder="Apa yang membuat bisnis Anda berbeda dari kompetitor?"
-            className="bg-secondary/50"
+            placeholder="Apa yang bikin bisnis kamu beda dari kompetitor?"
+            className="bg-secondary/50 rounded-2xl"
           />
         </div>
       </div>
 
-      <Button 
+      <button 
         onClick={handleSave}
         disabled={!isComplete}
-        className="w-full bg-primary hover:bg-primary/90"
+        className="btn-pill w-full bg-primary text-primary-foreground font-bold py-3 inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
       >
         {isSaved ? (
           <>
-            <CheckCircle2 className="mr-2 h-4 w-4" />
+            <CheckCircle2 className="h-4 w-4" />
             Tersimpan!
           </>
         ) : (
           "Simpan Profil"
         )}
-      </Button>
+      </button>
     </div>
   )
 }

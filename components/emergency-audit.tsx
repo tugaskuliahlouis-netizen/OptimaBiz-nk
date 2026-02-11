@@ -1,8 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import type { Product } from "./product-form"
 import { 
@@ -35,20 +33,13 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
 
   const generateAuditSteps = (): AuditStep[] => {
     const steps: AuditStep[] = []
-    
-    // Analyze products and generate relevant audit steps
     const lowMarginProducts = products.filter(p => {
       const margin = ((p.sellPrice - p.costPrice) / p.sellPrice) * 100
       return margin < 20
     })
-
     const lowStockProducts = products.filter(p => p.stock < 10)
     const noImageProducts = products.filter(p => !p.image)
-    const avgMargin = products.length > 0 
-      ? products.reduce((acc, p) => acc + ((p.sellPrice - p.costPrice) / p.sellPrice) * 100, 0) / products.length
-      : 0
 
-    // Step 1: Margin Analysis
     if (lowMarginProducts.length > 0) {
       steps.push({
         id: 1,
@@ -60,7 +51,6 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
       })
     }
 
-    // Step 2: Stock Check
     if (lowStockProducts.length > 0) {
       steps.push({
         id: 2,
@@ -72,7 +62,6 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
       })
     }
 
-    // Step 3: Visual Content
     if (noImageProducts.length > 0) {
       steps.push({
         id: 3,
@@ -84,7 +73,6 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
       })
     }
 
-    // Step 4: Marketing Review
     steps.push({
       id: 4,
       title: "Audit Channel Marketing",
@@ -94,7 +82,6 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
       status: "pending"
     })
 
-    // Step 5: Customer Feedback
     steps.push({
       id: 5,
       title: "Kumpulkan Feedback Pelanggan",
@@ -110,7 +97,6 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
   const runAudit = () => {
     setIsAuditing(true)
     setShowResults(false)
-    
     setTimeout(() => {
       const steps = generateAuditSteps()
       setAuditSteps(steps)
@@ -132,44 +118,41 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
   const completedSteps = auditSteps.filter(s => s.status === "completed").length
   const progress = auditSteps.length > 0 ? (completedSteps / auditSteps.length) * 100 : 0
 
-  const priorityColors = {
+  const priorityColors: Record<string, string> = {
     high: "bg-red-500/20 text-red-400 border-red-500/30",
-    medium: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+    medium: "bg-amber-500/20 text-amber-400 border-amber-500/30",
     low: "bg-blue-500/20 text-blue-400 border-blue-500/30"
   }
 
   return (
     <div className="space-y-6">
       {/* Emergency Button */}
-      <Card className={`relative overflow-hidden transition-all duration-500 border-border/50 ${isAuditing ? "border-red-500/50 shadow-lg shadow-red-500/10" : ""}`}>
+      <div className={`relative rounded-3xl glass-card overflow-hidden transition-all duration-500 ${isAuditing ? "shadow-lg shadow-red-500/10" : ""}`}>
         {isAuditing && (
           <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-transparent to-red-500/10 animate-pulse" />
         )}
-        <CardContent className="p-4 sm:p-6 relative">
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-            <div className={`relative rounded-xl sm:rounded-2xl p-3 sm:p-4 ${isAuditing ? "bg-red-500/20" : "bg-red-500/10"}`}>
+        <div className="p-5 sm:p-6 relative">
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            <div className={`relative rounded-2xl p-4 ${isAuditing ? "bg-red-500/20" : "bg-red-500/10"}`}>
               {isAuditing ? (
-                <div className="relative">
-                  <RefreshCcw className="h-6 sm:h-8 w-6 sm:w-8 text-red-400 animate-spin" />
-                </div>
+                <RefreshCcw className="h-7 sm:h-8 w-7 sm:w-8 text-red-400 animate-spin" />
               ) : (
-                <AlertTriangle className="h-6 sm:h-8 w-6 sm:w-8 text-red-400" />
+                <AlertTriangle className="h-7 sm:h-8 w-7 sm:w-8 text-red-400" />
               )}
             </div>
             <div className="flex-1 text-center sm:text-left">
-              <h3 className="text-base sm:text-lg font-semibold text-foreground">Tombol Darurat Anti-Stagnant</h3>
+              <h3 className="text-base sm:text-lg font-bold text-foreground">Tombol Darurat Anti-Stagnant</h3>
               <p className="text-xs sm:text-sm text-muted-foreground">
                 {isAuditing 
-                  ? "Menganalisis bisnis Anda dan mencari masalah..."
-                  : "Dapatkan 5 langkah audit kilat jika bisnis terasa melambat"
+                  ? "Lagi scanning bisnis kamu, sabar ya..."
+                  : "Bisnis terasa melambat? Dapatkan 5 langkah audit kilat sekarang"
                 }
               </p>
             </div>
-            <Button
+            <button
               onClick={runAudit}
               disabled={isAuditing || products.length === 0}
-              variant="destructive"
-              className="min-w-[140px] sm:min-w-[160px] text-sm sm:text-base w-full sm:w-auto"
+              className="btn-pill bg-red-500 text-white font-bold text-sm px-6 py-3 w-full sm:w-auto inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none hover:bg-red-600"
             >
               {isAuditing ? (
                 <span className="flex items-center gap-2">
@@ -178,53 +161,51 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
                 </span>
               ) : (
                 <>
-                  <Zap className="mr-2 h-4 w-4" />
+                  <Zap className="h-4 w-4" />
                   Audit Kilat
                 </>
               )}
-            </Button>
+            </button>
           </div>
 
           {products.length === 0 && (
-            <p className="mt-4 text-sm text-yellow-500 text-center">
+            <p className="mt-4 text-sm text-amber-400 text-center">
               Tambahkan produk terlebih dahulu untuk menjalankan audit
             </p>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Audit Results */}
       {showResults && auditSteps.length > 0 && (
         <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
           {/* Progress Bar */}
-          <Card className="border-border/50 bg-card/50">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-muted-foreground">Progress Audit</span>
-                <span className="text-sm font-semibold text-foreground">{completedSteps}/{auditSteps.length} selesai</span>
-              </div>
-              <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-gradient-to-r from-primary to-green-400 transition-all duration-500"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </CardContent>
-          </Card>
+          <div className="rounded-3xl glass-card p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-muted-foreground">Progress Audit</span>
+              <span className="text-sm font-bold text-foreground">{completedSteps}/{auditSteps.length} selesai</span>
+            </div>
+            <div className="h-2.5 bg-secondary rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-primary to-green-400 transition-all duration-500 rounded-full"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
 
           {/* Audit Steps */}
-          <Card className="border-border/50 bg-card/50">
-            <CardHeader className="pb-4">
-              <CardTitle className="flex items-center gap-2 text-lg">
+          <div className="rounded-3xl glass-card overflow-hidden">
+            <div className="p-5 sm:p-6 pb-3">
+              <h3 className="flex items-center gap-2 text-lg font-bold text-foreground">
                 <TrendingDown className="h-5 w-5 text-red-400" />
                 5 Langkah Audit Kilat
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </h3>
+            </div>
+            <div className="px-5 sm:px-6 pb-5 sm:pb-6 space-y-4">
               {auditSteps.map((step, index) => (
                 <div 
                   key={step.id}
-                  className={`relative p-4 rounded-xl border transition-all duration-300 cursor-pointer ${
+                  className={`relative p-4 rounded-2xl border transition-all duration-300 cursor-pointer ${
                     step.status === "completed" 
                       ? "bg-green-500/10 border-green-500/30" 
                       : "bg-secondary/30 border-border/50 hover:border-primary/30"
@@ -238,20 +219,20 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
                       {step.status === "completed" ? (
                         <CheckCircle2 className="h-5 w-5 text-green-400" />
                       ) : (
-                        <span className="text-sm font-semibold text-muted-foreground">{index + 1}</span>
+                        <span className="text-sm font-bold text-muted-foreground">{index + 1}</span>
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <h4 className={`font-semibold ${step.status === "completed" ? "text-green-400 line-through" : "text-foreground"}`}>
+                        <h4 className={`font-bold ${step.status === "completed" ? "text-green-400 line-through" : "text-foreground"}`}>
                           {step.title}
                         </h4>
-                        <Badge variant="outline" className={priorityColors[step.priority]}>
+                        <Badge variant="outline" className={`${priorityColors[step.priority]} rounded-full text-xs`}>
                           {step.priority === "high" ? "Urgent" : step.priority === "medium" ? "Penting" : "Nice to have"}
                         </Badge>
                       </div>
                       <p className="text-sm text-muted-foreground mb-2">{step.description}</p>
-                      <div className="flex items-start gap-2 p-2 rounded-lg bg-background/50">
+                      <div className="flex items-start gap-2 p-2.5 rounded-xl bg-background/50">
                         <ArrowRight className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                         <span className="text-sm text-foreground">{step.action}</span>
                       </div>
@@ -262,8 +243,8 @@ export function EmergencyAudit({ products }: EmergencyAuditProps) {
                   </div>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       )}
     </div>
