@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import {
@@ -27,17 +26,13 @@ export function GrowthChart({ totalProducts, avgMargin, totalValue }: GrowthChar
   const [marketingBudget, setMarketingBudget] = useState(500000)
   const [conversionRate, setConversionRate] = useState(3)
 
-  // Calculate projected growth based on marketing budget
   const projectedData = useMemo(() => {
-    const baseRevenue = totalValue * 0.3 // Assume 30% of inventory sold per month
+    const baseRevenue = totalValue * 0.3
     const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"]
     
     return months.map((month, index) => {
-      // Growth multiplier based on marketing budget (higher budget = faster growth)
       const budgetMultiplier = 1 + (marketingBudget / 1000000) * 0.15
-      // Conversion rate impact
       const conversionMultiplier = 1 + (conversionRate / 100) * 0.5
-      // Compound growth
       const growthFactor = Math.pow(budgetMultiplier * conversionMultiplier, index * 0.3)
       
       const revenue = Math.round(baseRevenue * growthFactor * (1 + index * 0.08))
@@ -59,141 +54,126 @@ export function GrowthChart({ totalProducts, avgMargin, totalValue }: GrowthChar
   const totalProjectedProfit = projectedData.reduce((sum, d) => sum + d.profit, 0)
   const avgROAS = (projectedData.reduce((sum, d) => sum + d.roas, 0) / 12).toFixed(2)
 
-  // Custom colors that work with Recharts
-  const primaryColor = "#a855f7"
+  const goldColor = "#eab308"
   const greenColor = "#22c55e"
   const blueColor = "#3b82f6"
 
   const formatCurrency = (value: number) => {
-    if (value >= 1000000) {
-      return `Rp${(value / 1000000).toFixed(1)}jt`
-    }
-    if (value >= 1000) {
-      return `Rp${(value / 1000).toFixed(0)}rb`
-    }
+    if (value >= 1000000) return `Rp${(value / 1000000).toFixed(1)}jt`
+    if (value >= 1000) return `Rp${(value / 1000).toFixed(0)}rb`
     return `Rp${value}`
   }
 
   return (
     <div className="space-y-6">
       {/* Budget Controls */}
-      <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-        <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <DollarSign className="h-5 w-5 text-primary" />
-            Simulasi Anggaran Marketing
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label>Budget Bulanan</Label>
-                <span className="text-sm font-semibold text-primary">
-                  Rp {marketingBudget.toLocaleString("id-ID")}
-                </span>
-              </div>
-              <Slider
-                value={[marketingBudget]}
-                onValueChange={(value) => setMarketingBudget(value[0])}
-                min={100000}
-                max={5000000}
-                step={100000}
-                className="py-2"
-              />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Rp100rb</span>
-                <span>Rp5jt</span>
-              </div>
+      <div className="rounded-3xl glass-card p-5 sm:p-6">
+        <h3 className="flex items-center gap-2 text-lg font-bold text-foreground mb-5">
+          <DollarSign className="h-5 w-5 text-primary" />
+          Simulasi Anggaran Marketing
+        </h3>
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label>Budget Bulanan</Label>
+              <span className="text-sm font-bold text-primary">
+                Rp {marketingBudget.toLocaleString("id-ID")}
+              </span>
             </div>
-
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label>Target Conversion Rate</Label>
-                <span className="text-sm font-semibold text-primary">{conversionRate}%</span>
-              </div>
-              <Slider
-                value={[conversionRate]}
-                onValueChange={(value) => setConversionRate(value[0])}
-                min={1}
-                max={10}
-                step={0.5}
-                className="py-2"
-              />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>1%</span>
-                <span>10%</span>
-              </div>
+            <Slider
+              value={[marketingBudget]}
+              onValueChange={(value) => setMarketingBudget(value[0])}
+              min={100000}
+              max={5000000}
+              step={100000}
+              className="py-2"
+            />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>Rp100rb</span>
+              <span>Rp5jt</span>
             </div>
           </div>
-        </CardContent>
-      </Card>
+
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label>Target Conversion Rate</Label>
+              <span className="text-sm font-bold text-primary">{conversionRate}%</span>
+            </div>
+            <Slider
+              value={[conversionRate]}
+              onValueChange={(value) => setConversionRate(value[0])}
+              min={1}
+              max={10}
+              step={0.5}
+              className="py-2"
+            />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>1%</span>
+              <span>10%</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Projection Stats */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card className="border-border/50 bg-gradient-to-br from-primary/10 to-transparent">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-primary/20 p-2.5">
-                <TrendingUp className="h-5 w-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Proyeksi Revenue (12 bln)</p>
-                <p className="text-xl font-bold text-foreground">
-                  Rp {totalProjectedRevenue.toLocaleString("id-ID")}
-                </p>
-              </div>
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-3">
+        <div className="rounded-3xl glass-card-white p-4">
+          <div className="flex items-center gap-3">
+            <div className="rounded-2xl bg-primary/10 p-2.5">
+              <TrendingUp className="h-5 w-5 text-primary" />
             </div>
-          </CardContent>
-        </Card>
+            <div className="min-w-0">
+              <p className="text-[10px] sm:text-xs text-card-foreground/50">Proyeksi Revenue (12 bln)</p>
+              <p className="text-base sm:text-xl font-extrabold text-card-foreground truncate">
+                Rp {totalProjectedRevenue.toLocaleString("id-ID")}
+              </p>
+            </div>
+          </div>
+        </div>
 
-        <Card className="border-border/50 bg-gradient-to-br from-green-500/10 to-transparent">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-green-500/20 p-2.5">
-                <DollarSign className="h-5 w-5 text-green-400" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Proyeksi Profit (12 bln)</p>
-                <p className="text-xl font-bold text-green-400">
-                  Rp {totalProjectedProfit.toLocaleString("id-ID")}
-                </p>
-              </div>
+        <div className="rounded-3xl glass-card-white p-4">
+          <div className="flex items-center gap-3">
+            <div className="rounded-2xl bg-green-500/10 p-2.5">
+              <DollarSign className="h-5 w-5 text-green-500" />
             </div>
-          </CardContent>
-        </Card>
+            <div className="min-w-0">
+              <p className="text-[10px] sm:text-xs text-card-foreground/50">Proyeksi Profit (12 bln)</p>
+              <p className="text-base sm:text-xl font-extrabold text-green-600 truncate">
+                Rp {totalProjectedProfit.toLocaleString("id-ID")}
+              </p>
+            </div>
+          </div>
+        </div>
 
-        <Card className="border-border/50 bg-gradient-to-br from-blue-500/10 to-transparent">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-3">
-              <div className="rounded-xl bg-blue-500/20 p-2.5">
-                <Target className="h-5 w-5 text-blue-400" />
-              </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Rata-rata ROAS</p>
-                <p className="text-xl font-bold text-blue-400">{avgROAS}x</p>
-              </div>
+        <div className="rounded-3xl glass-card-white p-4">
+          <div className="flex items-center gap-3">
+            <div className="rounded-2xl bg-blue-500/10 p-2.5">
+              <Target className="h-5 w-5 text-blue-500" />
             </div>
-          </CardContent>
-        </Card>
+            <div className="min-w-0">
+              <p className="text-[10px] sm:text-xs text-card-foreground/50">Rata-rata ROAS</p>
+              <p className="text-base sm:text-xl font-extrabold text-blue-600">{avgROAS}x</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Growth Chart */}
-      <Card className="border-border/50 bg-card/50 backdrop-blur-sm">
-        <CardHeader className="pb-4">
-          <CardTitle className="flex items-center gap-2 text-lg">
+      <div className="rounded-3xl glass-card overflow-hidden">
+        <div className="p-5 sm:p-6 pb-3">
+          <h3 className="flex items-center gap-2 text-lg font-bold text-foreground">
             <TrendingUp className="h-5 w-5 text-primary" />
             Proyeksi Pertumbuhan 12 Bulan
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[350px] w-full">
+          </h3>
+        </div>
+        <div className="px-3 sm:px-6 pb-5 sm:pb-6">
+          <div className="h-[280px] sm:h-[350px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={projectedData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={primaryColor} stopOpacity={0.3} />
-                    <stop offset="95%" stopColor={primaryColor} stopOpacity={0} />
+                    <stop offset="5%" stopColor={goldColor} stopOpacity={0.3} />
+                    <stop offset="95%" stopColor={goldColor} stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="colorProfit" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor={greenColor} stopOpacity={0.3} />
@@ -221,9 +201,9 @@ export function GrowthChart({ totalProducts, avgMargin, totalValue }: GrowthChar
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    backgroundColor: "rgba(0, 0, 0, 0.9)",
                     border: "1px solid #333",
-                    borderRadius: "8px",
+                    borderRadius: "16px",
                     color: "#fff"
                   }}
                   formatter={(value: number, name: string) => [
@@ -239,7 +219,7 @@ export function GrowthChart({ totalProducts, avgMargin, totalValue }: GrowthChar
                 <Area
                   type="monotone"
                   dataKey="revenue"
-                  stroke={primaryColor}
+                  stroke={goldColor}
                   strokeWidth={2}
                   fill="url(#colorRevenue)"
                 />
@@ -260,8 +240,8 @@ export function GrowthChart({ totalProducts, avgMargin, totalValue }: GrowthChar
               </AreaChart>
             </ResponsiveContainer>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }
