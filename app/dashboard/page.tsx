@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -26,6 +27,8 @@ import {
   BarChart3,
   AlertTriangle,
   Building2,
+  LogOut,
+  User,
 } from "lucide-react"
 
 const sidebarItems = [
@@ -36,12 +39,16 @@ const sidebarItems = [
 ]
 
 export default function OptimaBiz() {
+  const router = useRouter()
   const [products, setProducts] = useState<Product[]>([])
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [brandProfile, setBrandProfile] = useState<BrandProfile | null>(null)
   const [activeTab, setActiveTab] = useState("produk")
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
+  const [userName, setUserName] = useState("")
+  const [userBusiness, setUserBusiness] = useState("")
 
   useEffect(() => {
     const savedProducts = localStorage.getItem("optimabiz_products")
@@ -51,6 +58,12 @@ export default function OptimaBiz() {
     const savedProfile = localStorage.getItem("optimabiz_brand_profile")
     if (savedProfile) {
       setBrandProfile(JSON.parse(savedProfile))
+    }
+    const savedUser = localStorage.getItem("optimabiz_user")
+    if (savedUser) {
+      const user = JSON.parse(savedUser)
+      setUserName(user.name || "User")
+      setUserBusiness(user.businessName || "")
     }
   }, [])
 
@@ -84,6 +97,11 @@ export default function OptimaBiz() {
   const handleSaveBrandProfile = (profile: BrandProfile) => {
     setBrandProfile(profile)
     localStorage.setItem("optimabiz_brand_profile", JSON.stringify(profile))
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("optimabiz_user")
+    router.push("/")
   }
 
   const totalProducts = products.length
@@ -149,6 +167,28 @@ export default function OptimaBiz() {
               <Settings className="h-5 w-5" />
               Atur Strategi
             </button>
+
+            {/* User Profile & Logout */}
+            <div className="pt-2 border-t border-sidebar-border mt-2">
+              <div className="flex items-center gap-3 px-4 py-2">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/20 shrink-0">
+                  <User className="h-4 w-4 text-primary" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-sidebar-foreground truncate">{userName || "User"}</p>
+                  {userBusiness && (
+                    <p className="text-[10px] text-muted-foreground truncate">{userBusiness}</p>
+                  )}
+                </div>
+              </div>
+              <button
+                onClick={() => setShowLogoutConfirm(true)}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold text-red-400/80 hover:text-red-400 hover:bg-red-500/10 transition-all"
+              >
+                <LogOut className="h-5 w-5" />
+                Keluar
+              </button>
+            </div>
           </div>
         </aside>
 
@@ -194,6 +234,14 @@ export default function OptimaBiz() {
                   className="lg:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-border/50 text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
                 >
                   <Settings className="h-4 w-4" />
+                </button>
+
+                <button
+                  onClick={() => setShowLogoutConfirm(true)}
+                  className="lg:hidden flex h-9 w-9 items-center justify-center rounded-xl border border-red-500/20 text-red-400/60 hover:text-red-400 hover:border-red-500/40 hover:bg-red-500/10 transition-all"
+                  aria-label="Keluar"
+                >
+                  <LogOut className="h-4 w-4" />
                 </button>
 
                 <button
@@ -381,6 +429,35 @@ export default function OptimaBiz() {
             onSave={handleSaveBrandProfile}
             initialProfile={brandProfile}
           />
+        </DialogContent>
+      </Dialog>
+
+      {/* Logout Confirmation Dialog */}
+      <Dialog open={showLogoutConfirm} onOpenChange={setShowLogoutConfirm}>
+        <DialogContent className="max-w-[90vw] sm:max-w-sm bg-popover border-border/50 p-6 rounded-3xl">
+          <div className="flex flex-col items-center text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10 mb-4">
+              <LogOut className="h-7 w-7 text-red-400" />
+            </div>
+            <h3 className="text-lg font-extrabold text-foreground">Yakin mau keluar?</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Kamu akan keluar dari dashboard dan kembali ke halaman utama.
+            </p>
+            <div className="flex items-center gap-3 mt-6 w-full">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="btn-pill flex-1 border border-border/50 text-foreground font-semibold py-3 text-sm bg-transparent hover:bg-secondary/50"
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleLogout}
+                className="btn-pill flex-1 bg-red-500 text-white font-semibold py-3 text-sm hover:bg-red-600"
+              >
+                Keluar
+              </button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
