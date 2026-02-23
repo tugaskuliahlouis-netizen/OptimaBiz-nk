@@ -21,7 +21,11 @@ import {
   Heart,
   Cpu,
   Hammer,
-  Briefcase
+  Briefcase,
+  Check,
+  X,
+  Package,
+  ChevronRight,
 } from "lucide-react"
 
 interface AIStrategyEngineProps {
@@ -35,6 +39,8 @@ interface Strategy {
   timeline: { week: string; phase: string; tasks: string[] }[]
   tactics: { category: string; actions: string[] }[]
 }
+
+type EngineStep = "select" | "confirm" | "generating" | "result"
 
 const platformDatabase: Record<string, { name: string; icon: React.ReactNode; reason: string }[]> = {
   "Kuliner": [
@@ -151,14 +157,17 @@ const generateTactics = (category: string, targetMarket: string) => [
 ]
 
 export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }: AIStrategyEngineProps) {
-  const [isGenerating, setIsGenerating] = useState(false)
+  const [step, setStep] = useState<EngineStep>("select")
+  const [selectedProductIds, setSelectedProductIds] = useState<Set<string>>(new Set())
   const [strategy, setStrategy] = useState<Strategy | null>(null)
   const [displayedText, setDisplayedText] = useState("")
   const [currentSection, setCurrentSection] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const dominantCategory = products.length > 0
-    ? products.reduce((acc, product) => {
+  const selectedProducts = products.filter(p => selectedProductIds.has(p.id))
+
+  const dominantCategory = selectedProducts.length > 0
+    ? selectedProducts.reduce((acc, product) => {
         acc[product.category] = (acc[product.category] || 0) + 1
         return acc
       }, {} as Record<string, number>)
@@ -166,8 +175,28 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
 
   const topCategory = Object.entries(dominantCategory).sort((a, b) => b[1] - a[1])[0]?.[0] || "Lainnya"
 
-  const generateStrategy = () => {
-    setIsGenerating(true)
+  const toggleProduct = (id: string) => {
+    setSelectedProductIds(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) {
+        next.delete(id)
+      } else {
+        next.add(id)
+      }
+      return next
+    })
+  }
+
+  const selectAll = () => {
+    if (selectedProductIds.size === products.length) {
+      setSelectedProductIds(new Set())
+    } else {
+      setSelectedProductIds(new Set(products.map(p => p.id)))
+    }
+  }
+
+  const handleConfirm = () => {
+    setStep("generating")
     setStrategy(null)
     setDisplayedText("")
     setCurrentSection(0)
@@ -177,14 +206,23 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
       const timeline = generateTimeline(topCategory)
       const tactics = generateTactics(topCategory, brandProfile?.targetMarket || "lokal")
       setStrategy({ platforms, timeline, tactics })
-      setIsGenerating(false)
+      setStep("result")
       onGenerateStrategy()
     }, 3000)
   }
 
+  const handleReset = () => {
+    setStep("select")
+    setSelectedProductIds(new Set())
+    setStrategy(null)
+    setDisplayedText("")
+    setCurrentSection(0)
+  }
+
   useEffect(() => {
-    if (strategy && currentSection === 0) {
-      const introText = `Berdasarkan analisis ${products.length} produk dalam kategori ${topCategory} dan target pasar ${brandProfile?.targetMarket || "lokal"}, berikut strategi yang direkomendasikan untuk ${brandProfile?.businessName || "bisnis kamu"}:`
+    if (strategy && currentSection === 0 && step === "result") {
+      const productNames = selectedProducts.map(p => p.name).join(", ")
+      const introText = `Berdasarkan analisis ${selectedProducts.length} produk yang kamu pilih (${productNames}) dalam kategori ${topCategory} dan target pasar ${brandProfile?.targetMarket || "lokal"}, berikut strategi yang direkomendasikan untuk ${brandProfile?.businessName || "bisnis kamu"}:`
       let index = 0
       const interval = setInterval(() => {
         if (index < introText.length) {
@@ -197,7 +235,7 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
       }, 20)
       return () => clearInterval(interval)
     }
-  }, [strategy, currentSection, products.length, topCategory, brandProfile])
+  }, [strategy, currentSection, step, selectedProducts, topCategory, brandProfile])
 
   useEffect(() => {
     if (currentSection > 0 && currentSection < 4) {
@@ -210,62 +248,240 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
 
   return (
     <div className="space-y-6">
-      {/* Generate Button with Glowing Effect */}
-      <div className="relative">
-        {isGenerating && (
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary via-primary/50 to-primary animate-pulse blur-xl" />
-        )}
-        <div className={`relative overflow-hidden rounded-3xl glass-card p-5 sm:p-6 transition-all duration-500 ${isGenerating ? "shadow-lg shadow-primary/25 border-primary/50" : ""}`}>
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <div className={`relative rounded-2xl p-3 sm:p-4 ${isGenerating ? "bg-primary/20" : "bg-primary/10"}`}>
-              {isGenerating ? (
-                <div className="relative">
-                  <Sparkles className="h-6 sm:h-8 w-6 sm:w-8 text-primary animate-pulse" />
-                  <div className="absolute inset-0 rounded-full bg-primary/30 animate-ping" />
-                </div>
-              ) : (
+      {/* STEP 1: Product Selection */}
+      {step === "select" && (
+        <div className="space-y-5">
+          {/* Header */}
+          <div className="rounded-3xl glass-card p-5 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="rounded-2xl bg-primary/10 p-3 sm:p-4">
                 <Zap className="h-6 sm:h-8 w-6 sm:w-8 text-primary" />
-              )}
+              </div>
+              <div className="flex-1 text-center sm:text-left">
+                <h3 className="text-base sm:text-lg font-bold text-foreground">Spill Strategi - Pilih Produk</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Pilih produk mana saja yang ingin dianalisis. Kamu bisa pilih satu, beberapa, atau semua.
+                </p>
+              </div>
             </div>
-            <div className="flex-1 text-center sm:text-left">
-              <h3 className="text-base sm:text-lg font-bold text-foreground">Decision Engine AI</h3>
-              <p className="text-xs sm:text-sm text-muted-foreground">
-                {isGenerating 
-                  ? "Lagi mikir strategi terbaik buat bisnis kamu..."
-                  : "Generate rekomendasi platform dan strategi berdasarkan data produk kamu"
-                }
+          </div>
+
+          {!canGenerate ? (
+            <div className="rounded-3xl glass-card p-8 sm:p-12 flex flex-col items-center text-center">
+              <div className="rounded-full bg-primary/10 p-4 mb-4">
+                <Package className="h-8 w-8 text-muted-foreground/50" />
+              </div>
+              <h4 className="text-base font-bold text-foreground">Belum ada produk</h4>
+              <p className="mt-1 text-sm text-muted-foreground max-w-xs">
+                Tambahkan minimal 1 produk di tab Produk sebelum bisa generate strategi.
               </p>
             </div>
-            <button
-              onClick={generateStrategy}
-              disabled={!canGenerate || isGenerating}
-              className="btn-pill bg-primary text-primary-foreground font-bold text-sm px-6 py-3 w-full sm:w-auto inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
-            >
-              {isGenerating ? (
-                <span className="flex items-center gap-2">
-                  <span className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                  Processing...
-                </span>
-              ) : (
-                <>
+          ) : (
+            <>
+              {/* Select All Toggle */}
+              <div className="flex items-center justify-between px-1">
+                <p className="text-sm text-muted-foreground">
+                  <span className="font-bold text-primary">{selectedProductIds.size}</span> dari {products.length} produk dipilih
+                </p>
+                <button
+                  onClick={selectAll}
+                  className="text-xs font-bold text-primary hover:underline transition-all"
+                >
+                  {selectedProductIds.size === products.length ? "Batal Pilih Semua" : "Pilih Semua"}
+                </button>
+              </div>
+
+              {/* Product List */}
+              <div className="space-y-2">
+                {products.map((product) => {
+                  const isSelected = selectedProductIds.has(product.id)
+                  const margin = ((product.sellPrice - product.costPrice) / product.sellPrice) * 100
+
+                  return (
+                    <button
+                      key={product.id}
+                      type="button"
+                      onClick={() => toggleProduct(product.id)}
+                      className={`w-full rounded-2xl p-4 flex items-center gap-3 sm:gap-4 text-left transition-all duration-200 ${
+                        isSelected
+                          ? "glass-card border-primary/50 shadow-lg shadow-primary/10 ring-1 ring-primary/30"
+                          : "glass-card hover:border-border/80"
+                      }`}
+                    >
+                      {/* Checkbox */}
+                      <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 transition-all ${
+                        isSelected
+                          ? "bg-primary border-primary"
+                          : "border-border/60 bg-transparent"
+                      }`}>
+                        {isSelected && <Check className="h-3.5 w-3.5 text-primary-foreground" />}
+                      </div>
+
+                      {/* Product Image */}
+                      {product.image ? (
+                        <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-xl overflow-hidden shrink-0 border border-border/30">
+                          <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+                        </div>
+                      ) : (
+                        <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-xl bg-secondary flex items-center justify-center shrink-0 border border-border/30">
+                          <Package className="h-5 w-5 text-muted-foreground/50" />
+                        </div>
+                      )}
+
+                      {/* Product Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className="font-bold text-sm sm:text-base text-foreground truncate">{product.name}</p>
+                          <Badge variant="outline" className="text-[10px] rounded-full border-primary/30 text-primary shrink-0 hidden sm:inline-flex">
+                            {product.category}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center gap-3 mt-0.5">
+                          <span className="text-xs text-muted-foreground">Rp {product.sellPrice.toLocaleString("id-ID")}</span>
+                          <span className="text-xs font-semibold text-green-400">Margin {margin.toFixed(0)}%</span>
+                          <span className="text-xs text-muted-foreground">Stok: {product.stock}</span>
+                        </div>
+                      </div>
+
+                      {/* Arrow hint */}
+                      <ChevronRight className={`h-4 w-4 shrink-0 transition-transform ${isSelected ? "text-primary rotate-90" : "text-muted-foreground/30"}`} />
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Confirm Button */}
+              <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                <button
+                  onClick={() => setStep("confirm")}
+                  disabled={selectedProductIds.size === 0}
+                  className="btn-pill w-full sm:w-auto bg-primary text-primary-foreground font-bold text-sm px-8 py-3.5 inline-flex items-center justify-center gap-2 disabled:opacity-40 disabled:pointer-events-none"
+                >
                   <Sparkles className="h-4 w-4" />
-                  Generate Strategi
-                </>
-              )}
+                  Lanjut ke Konfirmasi ({selectedProductIds.size})
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* STEP 2: Confirmation */}
+      {step === "confirm" && (
+        <div className="space-y-5">
+          <div className="rounded-3xl glass-card p-5 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="rounded-2xl bg-primary/10 p-3 sm:p-4">
+                <Target className="h-6 sm:h-8 w-6 sm:w-8 text-primary" />
+              </div>
+              <div className="flex-1 text-center sm:text-left">
+                <h3 className="text-base sm:text-lg font-bold text-foreground">Konfirmasi Analisis</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Pastikan produk yang kamu pilih sudah benar sebelum generate strategi.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Summary Card */}
+          <div className="rounded-3xl glass-card p-5 sm:p-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-bold text-foreground">Produk yang akan dianalisis:</h4>
+              <Badge className="bg-primary/20 text-primary hover:bg-primary/30 rounded-full font-bold">
+                {selectedProducts.length} produk
+              </Badge>
+            </div>
+
+            <div className="space-y-2 max-h-60 overflow-y-auto">
+              {selectedProducts.map((product, index) => (
+                <div key={product.id} className="flex items-center gap-3 p-3 rounded-2xl bg-secondary/50">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/20 text-xs font-bold text-primary">{index + 1}</span>
+                  {product.image ? (
+                    <div className="h-9 w-9 rounded-lg overflow-hidden shrink-0">
+                      <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+                    </div>
+                  ) : (
+                    <div className="h-9 w-9 rounded-lg bg-muted flex items-center justify-center shrink-0">
+                      <Package className="h-4 w-4 text-muted-foreground/50" />
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-foreground truncate">{product.name}</p>
+                    <p className="text-[10px] text-muted-foreground">{product.category} - Rp {product.sellPrice.toLocaleString("id-ID")}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Info */}
+            <div className="rounded-2xl bg-primary/5 border border-primary/20 p-4">
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                AI akan menganalisis <span className="font-bold text-primary">{selectedProducts.length} produk</span> di kategori dominan <span className="font-bold text-primary">{topCategory}</span> untuk menghasilkan rekomendasi platform, timeline aksi, dan matriks taktis yang sesuai dengan bisnis kamu.
+              </p>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row items-center gap-3">
+            <button
+              onClick={() => setStep("select")}
+              className="btn-pill w-full sm:w-auto border border-border/50 text-foreground font-bold text-sm px-6 py-3 bg-transparent inline-flex items-center justify-center gap-2 hover:bg-secondary/50"
+            >
+              <ArrowRight className="h-4 w-4 rotate-180" />
+              Ubah Pilihan
+            </button>
+            <button
+              onClick={handleConfirm}
+              className="btn-pill w-full sm:w-auto bg-primary text-primary-foreground font-bold text-sm px-8 py-3.5 inline-flex items-center justify-center gap-2"
+            >
+              <Sparkles className="h-4 w-4" />
+              Generate Strategi Sekarang
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* STEP 3: Generating (Loading) */}
+      {step === "generating" && (
+        <div className="relative">
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary via-primary/50 to-primary animate-pulse blur-xl" />
+          <div className="relative rounded-3xl glass-card p-8 sm:p-12 border-primary/50 shadow-lg shadow-primary/25">
+            <div className="flex flex-col items-center text-center gap-5">
+              <div className="relative rounded-2xl bg-primary/20 p-5">
+                <Sparkles className="h-10 w-10 text-primary animate-pulse" />
+                <div className="absolute inset-0 rounded-2xl bg-primary/30 animate-ping" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-foreground">Lagi mikir strategi terbaik...</h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Menganalisis {selectedProducts.length} produk di kategori {topCategory} dan menyusun rencana aksi.
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="h-2 w-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "0ms" }} />
+                <div className="h-2 w-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "150ms" }} />
+                <div className="h-2 w-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: "300ms" }} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* STEP 4: Results (Strategy Output with Typewriter Effect) */}
+      {step === "result" && strategy && (
+        <div ref={containerRef} className="space-y-6">
+          {/* Reset / Analyze Again */}
+          <div className="flex items-center justify-between">
+            <h3 className="text-base sm:text-lg font-bold text-foreground">Hasil Analisis</h3>
+            <button
+              onClick={handleReset}
+              className="btn-pill border border-border/50 text-foreground font-semibold text-xs px-4 py-2 bg-transparent inline-flex items-center gap-1.5 hover:bg-secondary/50"
+            >
+              <ArrowRight className="h-3.5 w-3.5 rotate-180" />
+              Analisis Ulang
             </button>
           </div>
 
-          {!canGenerate && (
-            <p className="mt-4 text-sm text-amber-400 text-center">
-              Tambahkan minimal 1 produk untuk generate strategi
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Strategy Output with Typewriter Effect */}
-      {strategy && (
-        <div ref={containerRef} className="space-y-6">
           {/* Intro Text */}
           <div className="rounded-3xl glass-card p-5 sm:p-6">
             <p className="text-foreground leading-relaxed">
