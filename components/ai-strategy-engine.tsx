@@ -162,7 +162,11 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
   const [strategy, setStrategy] = useState<Strategy | null>(null)
   const [displayedText, setDisplayedText] = useState("")
   const [currentSection, setCurrentSection] = useState(0)
+  const [introText, setIntroText] = useState("")
+  const [resolvedCategory, setResolvedCategory] = useState("Lainnya")
+  const [analysisProducts, setAnalysisProducts] = useState<Product[]>([])
   const containerRef = useRef<HTMLDivElement>(null)
+  const typewriterRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const selectedProducts = products.filter(p => selectedProductIds.has(p.id))
 
@@ -196,15 +200,30 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
   }
 
   const handleConfirm = () => {
+    // Snapshot selected products and category before transitioning
+    const snapshotProducts = products.filter(p => selectedProductIds.has(p.id))
+    const categoryCount = snapshotProducts.reduce((acc, product) => {
+      acc[product.category] = (acc[product.category] || 0) + 1
+      return acc
+    }, {} as Record<string, number>)
+    const category = Object.entries(categoryCount).sort((a, b) => b[1] - a[1])[0]?.[0] || "Lainnya"
+
+    setAnalysisProducts(snapshotProducts)
+    setResolvedCategory(category)
     setStep("generating")
     setStrategy(null)
     setDisplayedText("")
     setCurrentSection(0)
 
+    // Build the intro text now with stable values
+    const productNames = snapshotProducts.map(p => p.name).join(", ")
+    const text = `Berdasarkan analisis ${snapshotProducts.length} produk yang kamu pilih (${productNames}) dalam kategori ${category} dan target pasar ${brandProfile?.targetMarket || "lokal"}, berikut strategi yang direkomendasikan untuk ${brandProfile?.businessName || "bisnis kamu"}:`
+    setIntroText(text)
+
     setTimeout(() => {
-      const platforms = platformDatabase[topCategory] || platformDatabase["Lainnya"]
-      const timeline = generateTimeline(topCategory)
-      const tactics = generateTactics(topCategory, brandProfile?.targetMarket || "lokal")
+      const platforms = platformDatabase[category] || platformDatabase["Lainnya"]
+      const timeline = generateTimeline(category)
+      const tactics = generateTactics(category, brandProfile?.targetMarket || "lokal")
       setStrategy({ platforms, timeline, tactics })
       setStep("result")
       onGenerateStrategy()
@@ -212,34 +231,50 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
   }
 
   const handleReset = () => {
+    if (typewriterRef.current) {
+      clearInterval(typewriterRef.current)
+      typewriterRef.current = null
+    }
     setStep("select")
     setSelectedProductIds(new Set())
     setStrategy(null)
     setDisplayedText("")
     setCurrentSection(0)
+    setIntroText("")
+    setAnalysisProducts([])
   }
 
+  // Typewriter effect -- only runs once when strategy arrives
   useEffect(() => {
-    if (strategy && currentSection === 0 && step === "result") {
-      const productNames = selectedProducts.map(p => p.name).join(", ")
-      const introText = `Berdasarkan analisis ${selectedProducts.length} produk yang kamu pilih (${productNames}) dalam kategori ${topCategory} dan target pasar ${brandProfile?.targetMarket || "lokal"}, berikut strategi yang direkomendasikan untuk ${brandProfile?.businessName || "bisnis kamu"}:`
+    if (strategy && step === "result" && currentSection === 0 && introText) {
       let index = 0
-      const interval = setInterval(() => {
+      if (typewriterRef.current) clearInterval(typewriterRef.current)
+
+      typewriterRef.current = setInterval(() => {
         if (index < introText.length) {
           setDisplayedText(introText.slice(0, index + 1))
           index++
         } else {
-          clearInterval(interval)
+          if (typewriterRef.current) clearInterval(typewriterRef.current)
+          typewriterRef.current = null
           setTimeout(() => setCurrentSection(1), 500)
         }
       }, 20)
-      return () => clearInterval(interval)
-    }
-  }, [strategy, currentSection, step, selectedProducts, topCategory, brandProfile])
 
+      return () => {
+        if (typewriterRef.current) {
+          clearInterval(typewriterRef.current)
+          typewriterRef.current = null
+        }
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [strategy, step])
+
+  // Progressively reveal sections after typewriter finishes
   useEffect(() => {
     if (currentSection > 0 && currentSection < 4) {
-      const timer = setTimeout(() => setCurrentSection(currentSection + 1), 800)
+      const timer = setTimeout(() => setCurrentSection(prev => prev + 1), 800)
       return () => clearTimeout(timer)
     }
   }, [currentSection])
@@ -454,7 +489,7 @@ export function AIStrategyEngine({ products, brandProfile, onGenerateStrategy }:
               <div>
                 <h3 className="text-lg font-bold text-foreground">Lagi mikir strategi terbaik...</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Menganalisis {selectedProducts.length} produk di kategori {topCategory} dan menyusun rencana aksi.
+                  Menganalisis {analysisProducts.length} produk di kategori {resolvedCategory} dan menyusun rencana aksi.
                 </p>
               </div>
               <div className="flex items-center gap-1.5">
