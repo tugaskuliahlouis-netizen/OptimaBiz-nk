@@ -52,15 +52,21 @@ export default function LandingPage() {
     setIsVisible(true)
   }, [])
 
-  // Floating star particles
-  const stars = Array.from({ length: 40 }, (_, i) => ({
-    id: i,
-    top: `${Math.random() * 100}%`,
-    left: `${Math.random() * 100}%`,
-    size: Math.random() * 2 + 1,
-    delay: Math.random() * 5,
-    duration: Math.random() * 3 + 2,
-  }))
+  // Floating star particles - using seeded positions to avoid hydration mismatch
+  const stars = Array.from({ length: 40 }, (_, i) => {
+    // Use deterministic values based on index instead of Math.random()
+    const seed = (i * 17 + 31) % 100
+    const seed2 = (i * 23 + 47) % 100
+    const seed3 = (i * 13 + 7) % 100
+    return {
+      id: i,
+      top: `${seed}%`,
+      left: `${seed2}%`,
+      size: (seed3 % 20) / 10 + 1,
+      delay: (seed % 50) / 10,
+      duration: (seed2 % 30) / 10 + 2,
+    }
+  })
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden font-sans">
