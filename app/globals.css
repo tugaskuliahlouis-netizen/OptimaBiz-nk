@@ -3,76 +3,83 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Nexis Vibe: Black (#000) + Gold (#FFD700) + White (#FFF) */
+/* Dark Futurism: Obsidian (#0A0A0A) + Neon Cyan (#00F3FF) + Neon Purple (#BC00FF) */
 :root {
-  --background: oklch(0 0 0);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.95 0 0);
-  --card-foreground: oklch(0.1 0 0);
-  --popover: oklch(0.08 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.85 0.17 85);
-  --primary-foreground: oklch(0.05 0 0);
-  --secondary: oklch(0.1 0 0);
-  --secondary-foreground: oklch(0.9 0 0);
-  --muted: oklch(0.15 0 0);
-  --muted-foreground: oklch(0.6 0 0);
-  --accent: oklch(0.85 0.17 85);
-  --accent-foreground: oklch(0.05 0 0);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.2 0 0);
-  --input: oklch(0.12 0 0);
-  --ring: oklch(0.85 0.17 85);
-  --chart-1: oklch(0.85 0.17 85);
-  --chart-2: oklch(0.65 0.15 160);
-  --chart-3: oklch(0.55 0.2 25);
-  --chart-4: oklch(0.7 0.15 200);
-  --chart-5: oklch(0.75 0.12 310);
+  --background: #0A0A0A;
+  --foreground: #F0F0F0;
+  --card: #0F0F0F;
+  --card-foreground: #F0F0F0;
+  --popover: #0D0D0D;
+  --popover-foreground: #F0F0F0;
+  --primary: #00F3FF;
+  --primary-foreground: #0A0A0A;
+  --secondary: #151520;
+  --secondary-foreground: #E0E0E0;
+  --muted: #1A1A25;
+  --muted-foreground: #8A8A9A;
+  --accent: #BC00FF;
+  --accent-foreground: #FFFFFF;
+  --destructive: #FF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: #121218;
+  --ring: #00F3FF;
+  --chart-1: #00F3FF;
+  --chart-2: #BC00FF;
+  --chart-3: #00FF88;
+  --chart-4: #FF6B00;
+  --chart-5: #FFD700;
   --radius: 1.25rem;
-  --sidebar: oklch(0.04 0 0);
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.85 0.17 85);
-  --sidebar-primary-foreground: oklch(0.05 0 0);
-  --sidebar-accent: oklch(0.12 0 0);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.18 0 0);
-  --sidebar-ring: oklch(0.85 0.17 85);
+  --sidebar: #050508;
+  --sidebar-foreground: #F0F0F0;
+  --sidebar-primary: #00F3FF;
+  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-accent: #151520;
+  --sidebar-accent-foreground: #F0F0F0;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #00F3FF;
+  
+  /* Neon Colors for direct use */
+  --neon-cyan: #00F3FF;
+  --neon-purple: #BC00FF;
+  --neon-green: #00FF88;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.06);
 }
 
 .dark {
-  --background: oklch(0 0 0);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.95 0 0);
-  --card-foreground: oklch(0.1 0 0);
-  --popover: oklch(0.08 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.85 0.17 85);
-  --primary-foreground: oklch(0.05 0 0);
-  --secondary: oklch(0.1 0 0);
-  --secondary-foreground: oklch(0.9 0 0);
-  --muted: oklch(0.15 0 0);
-  --muted-foreground: oklch(0.6 0 0);
-  --accent: oklch(0.85 0.17 85);
-  --accent-foreground: oklch(0.05 0 0);
-  --destructive: oklch(0.55 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.2 0 0);
-  --input: oklch(0.12 0 0);
-  --ring: oklch(0.85 0.17 85);
-  --chart-1: oklch(0.85 0.17 85);
-  --chart-2: oklch(0.65 0.15 160);
-  --chart-3: oklch(0.55 0.2 25);
-  --chart-4: oklch(0.7 0.15 200);
-  --chart-5: oklch(0.75 0.12 310);
-  --sidebar: oklch(0.04 0 0);
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.85 0.17 85);
-  --sidebar-primary-foreground: oklch(0.05 0 0);
-  --sidebar-accent: oklch(0.12 0 0);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.18 0 0);
-  --sidebar-ring: oklch(0.85 0.17 85);
+  --background: #0A0A0A;
+  --foreground: #F0F0F0;
+  --card: #0F0F0F;
+  --card-foreground: #F0F0F0;
+  --popover: #0D0D0D;
+  --popover-foreground: #F0F0F0;
+  --primary: #00F3FF;
+  --primary-foreground: #0A0A0A;
+  --secondary: #151520;
+  --secondary-foreground: #E0E0E0;
+  --muted: #1A1A25;
+  --muted-foreground: #8A8A9A;
+  --accent: #BC00FF;
+  --accent-foreground: #FFFFFF;
+  --destructive: #FF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: #121218;
+  --ring: #00F3FF;
+  --chart-1: #00F3FF;
+  --chart-2: #BC00FF;
+  --chart-3: #00FF88;
+  --chart-4: #FF6B00;
+  --chart-5: #FFD700;
+  --sidebar: #050508;
+  --sidebar-foreground: #F0F0F0;
+  --sidebar-primary: #00F3FF;
+  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-accent: #151520;
+  --sidebar-accent-foreground: #F0F0F0;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #00F3FF;
 }
 
 @theme inline {
@@ -114,9 +121,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  /* Nexis Vibe Gold color for direct use */
-  --color-gold: oklch(0.85 0.17 85);
-  --color-gold-foreground: oklch(0.05 0 0);
+  /* Dark Futurism Neon Colors */
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-purple: var(--neon-purple);
+  --color-neon-green: var(--neon-green);
 }
 
 @layer base {
@@ -128,27 +136,52 @@
   }
 }
 
-/* Nexis Pill Button Micro-interactions */
+/* Dark Futurism Micro-interactions */
 @layer utilities {
   .btn-pill {
     border-radius: 9999px;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .btn-pill:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 24px oklch(0.85 0.17 85 / 0.35);
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.4);
   }
   .btn-pill:active {
-    transform: scale(0.97);
+    transform: scale(0.98);
   }
   .glass-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
   }
-  .glass-card-white {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+  .glass-card-dark {
+    background: rgba(15, 15, 20, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .neon-glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3), 0 0 40px rgba(0, 243, 255, 0.1);
+  }
+  .neon-glow-purple {
+    box-shadow: 0 0 20px rgba(188, 0, 255, 0.3), 0 0 40px rgba(188, 0, 255, 0.1);
+  }
+  .neon-text-cyan {
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+  }
+  .neon-text-purple {
+    text-shadow: 0 0 10px rgba(188, 0, 255, 0.5);
+  }
+  .wave-divider {
+    position: relative;
+  }
+  .wave-divider::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 120' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 120V60C240 20 480 0 720 20C960 40 1200 100 1440 60V120H0Z' fill='%23F0F0F0'/%3E%3C/svg%3E") no-repeat bottom;
+    background-size: cover;
   }
 }

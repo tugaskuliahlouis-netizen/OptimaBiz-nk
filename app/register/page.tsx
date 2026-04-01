@@ -4,7 +4,6 @@ import React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -18,6 +17,10 @@ import {
   EyeOff,
   Building2,
   Phone,
+  Link2,
+  Trophy,
+  Brain,
+  Target,
 } from "lucide-react"
 
 export default function RegisterPage() {
@@ -53,55 +56,68 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col lg:flex-row overflow-x-hidden">
-      {/* Ambient background */}
+      {/* Ambient neon background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/15 rounded-full blur-[150px]" />
-        <div className="absolute bottom-0 -left-40 w-80 h-80 bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-primary/15 rounded-full blur-[180px]" />
+        <div className="absolute bottom-0 -left-40 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[150px]" />
       </div>
 
-      {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-primary">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary-foreground/5 to-transparent" />
+      {/* Left Side - Branding with Wave Divider */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-primary/90 to-accent/70 overflow-hidden">
+        {/* Wave pattern overlay */}
+        <div className="absolute inset-0 opacity-10">
+          <svg className="absolute bottom-0 w-full" viewBox="0 0 1440 320" fill="white">
+            <path d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          </svg>
+        </div>
+        
         <div className="relative z-10 flex flex-col justify-between p-12 w-full">
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-foreground">
-              <Sparkles className="h-6 w-6 text-primary" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
+              <Sparkles className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-extrabold text-primary-foreground tracking-tight">OptimaBiz</h1>
-              <p className="text-xs uppercase tracking-widest text-primary-foreground/60">Enterprise Navigator</p>
+              <h1 className="text-2xl font-extrabold text-white tracking-tight">OptimaBiz</h1>
+              <p className="text-xs uppercase tracking-widest text-white/60">Enterprise Navigator</p>
             </div>
           </Link>
 
-          <div className="space-y-6">
-            <h2 className="text-4xl font-extrabold text-primary-foreground leading-tight tracking-tight">
-              Kelola Bisnis{" "}
-              <span className="text-primary-foreground/80">
-                Lebih Cerdas
+          <div className="space-y-8">
+            <h2 className="text-4xl font-extrabold text-white leading-tight tracking-tight">
+              Scale Up{" "}
+              <span className="text-white/80">
+                Bisnismu
               </span>
             </h2>
-            <p className="text-lg text-primary-foreground/70 max-w-md leading-relaxed">
-              Bergabung dengan ribuan UMKM yang sudah pakai OptimaBiz buat optimize profit dan grow bisnis mereka.
+            <p className="text-lg text-white/70 max-w-md leading-relaxed">
+              Bergabung dengan 200+ UMKM yang sudah pakai OptimaBiz untuk optimize profit dan grow bisnis mereka.
             </p>
 
-            <div className="space-y-4">
+            {/* Feature cards */}
+            <div className="grid grid-cols-2 gap-4">
               {[
-                "Kelola inventaris produk dengan mudah",
-                "Analisis margin keuntungan otomatis",
-                "Rekomendasi strategi berbasis data",
-                "Upload foto produk dengan drag & drop",
-              ].map((feature, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-foreground/20">
-                    <div className="h-2 w-2 rounded-full bg-primary-foreground" />
+                { icon: Link2, label: "Omnichannel Sync", color: "#BC00FF" },
+                { icon: Trophy, label: "SAW Engine", color: "#FFD700" },
+                { icon: Brain, label: "AI Partner", color: "#00FF88" },
+                { icon: Target, label: "ROAS Tracker", color: "#00F3FF" },
+              ].map((item, i) => (
+                <div 
+                  key={i}
+                  className="flex items-center gap-3 p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10"
+                >
+                  <div 
+                    className="flex h-10 w-10 items-center justify-center rounded-lg"
+                    style={{ backgroundColor: `${item.color}30` }}
+                  >
+                    <item.icon className="h-5 w-5 text-white" />
                   </div>
-                  <span className="text-primary-foreground/80">{feature}</span>
+                  <span className="text-sm font-medium text-white">{item.label}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <p className="text-sm text-primary-foreground/50">
+          <p className="text-sm text-white/50">
             2024 OptimaBiz. Dibuat untuk UMKM Indonesia.
           </p>
         </div>
@@ -114,25 +130,25 @@ export default function RegisterPage() {
           <Link href="/" className="lg:hidden flex items-center gap-3 mb-8">
             <div className="relative">
               <div className="absolute inset-0 bg-primary/40 blur-xl rounded-full" />
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-primary">
+              <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-primary neon-glow-cyan">
                 <Sparkles className="h-5 w-5 text-primary-foreground" />
               </div>
             </div>
             <div>
-              <h1 className="text-xl font-extrabold text-foreground tracking-tight">OptimaBiz</h1>
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Enterprise Navigator</p>
+              <h1 className="text-xl font-extrabold text-foreground tracking-tight neon-text-cyan">OptimaBiz</h1>
+              <p className="text-[10px] uppercase tracking-widest text-primary">Enterprise Navigator</p>
             </div>
           </Link>
 
           {/* Form Header */}
           <div className="mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-foreground tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
               {isLogin ? "Welcome Back" : "Buat Akun Baru"}
             </h2>
             <p className="mt-2 text-sm sm:text-base text-muted-foreground">
               {isLogin
-                ? "Masuk ke akun kamu untuk lanjutkan perjalanan"
-                : "Daftar gratis dan mulai kelola bisnismu sekarang"}
+                ? "Masuk ke akun kamu untuk lanjutkan"
+                : "Daftar gratis dan mulai scale up bisnismu"}
             </p>
           </div>
 
@@ -141,9 +157,9 @@ export default function RegisterPage() {
             {!isLogin && (
               <>
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nama Lengkap</Label>
+                  <Label htmlFor="name" className="text-foreground">Nama Lengkap</Label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
                       id="name"
                       type="text"
@@ -151,15 +167,15 @@ export default function RegisterPage() {
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Masukkan nama lengkap"
                       required
-                      className="pl-11 bg-secondary/50 border-border/50 focus:border-primary rounded-2xl"
+                      className="pl-12 py-6 bg-secondary/50 border-border/50 focus:border-primary rounded-xl text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="businessName">Nama Usaha</Label>
+                  <Label htmlFor="businessName" className="text-foreground">Nama Usaha</Label>
                   <div className="relative">
-                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
                       id="businessName"
                       type="text"
@@ -167,15 +183,15 @@ export default function RegisterPage() {
                       onChange={(e) => setBusinessName(e.target.value)}
                       placeholder="Nama toko atau usaha kamu"
                       required
-                      className="pl-11 bg-secondary/50 border-border/50 focus:border-primary rounded-2xl"
+                      className="pl-12 py-6 bg-secondary/50 border-border/50 focus:border-primary rounded-xl text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Nomor WhatsApp</Label>
+                  <Label htmlFor="phone" className="text-foreground">Nomor WhatsApp</Label>
                   <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
                       id="phone"
                       type="tel"
@@ -183,7 +199,7 @@ export default function RegisterPage() {
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="08xxxxxxxxxx"
                       required
-                      className="pl-11 bg-secondary/50 border-border/50 focus:border-primary rounded-2xl"
+                      className="pl-12 py-6 bg-secondary/50 border-border/50 focus:border-primary rounded-xl text-foreground placeholder:text-muted-foreground"
                     />
                   </div>
                 </div>
@@ -191,9 +207,9 @@ export default function RegisterPage() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-foreground">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   id="email"
                   type="email"
@@ -201,15 +217,15 @@ export default function RegisterPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="nama@email.com"
                   required
-                  className="pl-11 bg-secondary/50 border-border/50 focus:border-primary rounded-2xl"
+                  className="pl-12 py-6 bg-secondary/50 border-border/50 focus:border-primary rounded-xl text-foreground placeholder:text-muted-foreground"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-foreground">Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -218,12 +234,12 @@ export default function RegisterPage() {
                   placeholder="Minimal 8 karakter"
                   required
                   minLength={8}
-                  className="pl-11 pr-11 bg-secondary/50 border-border/50 focus:border-primary rounded-2xl"
+                  className="pl-12 pr-12 py-6 bg-secondary/50 border-border/50 focus:border-primary rounded-xl text-foreground placeholder:text-muted-foreground"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -236,7 +252,7 @@ export default function RegisterPage() {
                   id="terms"
                   checked={agreeTerms}
                   onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
-                  className="mt-1"
+                  className="mt-1 border-muted-foreground data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                 />
                 <Label htmlFor="terms" className="text-sm text-muted-foreground leading-relaxed cursor-pointer">
                   Saya setuju dengan{" "}
@@ -249,7 +265,7 @@ export default function RegisterPage() {
             {isLogin && (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="remember" />
+                  <Checkbox id="remember" className="border-muted-foreground data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
                   <Label htmlFor="remember" className="text-sm text-muted-foreground cursor-pointer">
                     Ingat saya
                   </Label>
@@ -263,7 +279,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={isLoading || (!isLogin && !agreeTerms)}
-              className="btn-pill w-full bg-primary text-primary-foreground font-bold py-4 sm:py-5 text-sm sm:text-base inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
+              className="btn-pill w-full bg-primary text-primary-foreground font-bold py-5 text-base inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none"
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
@@ -272,7 +288,7 @@ export default function RegisterPage() {
                 </div>
               ) : (
                 <>
-                  {isLogin ? "Masuk" : "Gaspol!"}
+                  {isLogin ? "Masuk" : "Daftar Sekarang"}
                   <ArrowRight className="h-5 w-5" />
                 </>
               )}
@@ -307,7 +323,7 @@ export default function RegisterPage() {
           <div className="space-y-3">
             <button
               type="button"
-              className="btn-pill w-full border border-border/50 text-foreground font-semibold py-4 sm:py-5 text-sm sm:text-base inline-flex items-center justify-center gap-3 bg-transparent hover:bg-secondary/50"
+              className="btn-pill w-full border border-border/50 text-foreground font-semibold py-5 text-base inline-flex items-center justify-center gap-3 bg-transparent hover:bg-secondary/50"
               onClick={() => {
                 setIsLoading(true)
                 setTimeout(() => {
